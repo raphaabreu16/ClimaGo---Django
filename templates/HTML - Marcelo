@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climago</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <div class="container">
+
+        <header class="topo">
+
+            <div>
+                <h1>☁️ Climago</h1>
+                <p>Seu assistente climático inteligente</p>
+            </div>
+
+            <button class="botao-login">
+                Entrar
+            </button>
+
+        </header>
+
+        <main class="conteudo">
+
+            <div class="caixa">
+
+                <h2>Olá! 👋</h2>
+
+                <p>
+                    Consulte previsão do tempo,
+                    organize atividades e acompanhe o clima da semana.
+                </p>
+
+                <div class="acoes">
+
+                    <button>
+                        Ver previsão
+                    </button>
+
+                    <button>
+                        Abrir calendário
+                    </button>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+</html>
