@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climago</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>☁️ Climago</h1>
+
+        <p>
+            Consulte previsão do tempo da sua cidade.
+        </p>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ form }}
+
+            <button type="submit">
+                Pesquisar
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>
