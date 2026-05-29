@@ -1,0 +1,7 @@
+{# Componente reutilizável para headers de seção #}
+<div class="section-header">
+    <h2 class="section-title">{{ title }}</h2>
+    {% if link_url %}
+        <a href="{{ link_url }}" class="section-link">{{ link_text }}</a>
+    {% endif %}
+</div>
