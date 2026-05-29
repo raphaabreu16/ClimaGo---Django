@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block title %}ClimaGo - Dashboard{% endblock %}
+
 {% block content %}
 
 <main class="dashboard-page">
@@ -48,29 +50,9 @@
 
             <div class="weather-details">
 
-                <div class="weather-detail-item">
-                    <span class="detail-icon">💧</span>
-                    <div>
-                        <span class="detail-label">Umidade</span>
-                        <strong class="detail-value">62%</strong>
-                    </div>
-                </div>
-
-                <div class="weather-detail-item">
-                    <span class="detail-icon">💨</span>
-                    <div>
-                        <span class="detail-label">Vento</span>
-                        <strong class="detail-value">12 km/h</strong>
-                    </div>
-                </div>
-
-                <div class="weather-detail-item">
-                    <span class="detail-icon">👁️</span>
-                    <div>
-                        <span class="detail-label">UV</span>
-                        <strong class="detail-value">Alto</strong>
-                    </div>
-                </div>
+                {% include 'includes/weather_detail_item.html' with icon='💧' label='Umidade' value='62%' %}
+                {% include 'includes/weather_detail_item.html' with icon='💨' label='Vento' value='12 km/h' %}
+                {% include 'includes/weather_detail_item.html' with icon='👁️' label='UV' value='Alto' %}
 
             </div>
 
@@ -109,27 +91,9 @@
     <!-- CARDS DE JANELA IDEAL -->
     <section class="smart-window-section">
 
-        <article class="smart-card safe-card">
-            <div class="smart-icon">⚡</div>
+        {% include 'includes/smart_card.html' with icon='⚡' title='Melhor janela de 5 dias' text='Qui a Seg — clima estável, baixa chance de chuva.' card_class='safe-card' %}
 
-            <div class="smart-content">
-                <h3 class="smart-title">Melhor janela de 5 dias</h3>
-                <p class="smart-text">Qui a Seg — clima estável, baixa chance de chuva.</p>
-            </div>
-
-            <span class="smart-arrow">›</span>
-        </article>
-
-        <article class="smart-card primary-card">
-            <div class="smart-icon">📅</div>
-
-            <div class="smart-content">
-                <h3 class="smart-title">Menor risco climático</h3>
-                <p class="smart-text">Sexta-feira — 29°C, 5% de chuva, ideal para ar livre.</p>
-            </div>
-
-            <span class="smart-arrow">›</span>
-        </article>
+        {% include 'includes/smart_card.html' with icon='📅' title='Menor risco climático' text='Sexta-feira — 29°C, 5% de chuva, ideal para ar livre.' card_class='primary-card' %}
 
     </section>
 
@@ -160,68 +124,17 @@
     <!-- PREVISÃO 7 DIAS -->
     <section class="forecast-section">
 
-        <div class="section-header">
-            <h2 class="section-title">Próximos 7 dias</h2>
-            <a href="#" class="section-link">Ver 30 dias →</a>
-        </div>
+        {% include 'includes/section_header.html' with title='Próximos 7 dias' link_url='#' link_text='Ver 30 dias →' %}
 
         <div class="forecast-list">
 
-            <article class="forecast-card forecast-active">
-                <span class="forecast-day">Hoje</span>
-                <span class="forecast-icon">☀️</span>
-                <strong class="forecast-temp">28°</strong>
-                <span class="forecast-low">20°</span>
-                <span class="forecast-rain">5%</span>
-            </article>
-
-            <article class="forecast-card">
-                <span class="forecast-day">Seg</span>
-                <span class="forecast-icon">⛅</span>
-                <strong class="forecast-temp">26°</strong>
-                <span class="forecast-low">19°</span>
-                <span class="forecast-rain">20%</span>
-            </article>
-
-            <article class="forecast-card">
-                <span class="forecast-day">Ter</span>
-                <span class="forecast-icon">🌧️</span>
-                <strong class="forecast-temp">24°</strong>
-                <span class="forecast-low">18°</span>
-                <span class="forecast-rain">70%</span>
-            </article>
-
-            <article class="forecast-card">
-                <span class="forecast-day">Qua</span>
-                <span class="forecast-icon">🌦️</span>
-                <strong class="forecast-temp">23°</strong>
-                <span class="forecast-low">17°</span>
-                <span class="forecast-rain">55%</span>
-            </article>
-
-            <article class="forecast-card">
-                <span class="forecast-day">Qui</span>
-                <span class="forecast-icon">☀️</span>
-                <strong class="forecast-temp">27°</strong>
-                <span class="forecast-low">19°</span>
-                <span class="forecast-rain">10%</span>
-            </article>
-
-            <article class="forecast-card">
-                <span class="forecast-day">Sex</span>
-                <span class="forecast-icon">☀️</span>
-                <strong class="forecast-temp">29°</strong>
-                <span class="forecast-low">21°</span>
-                <span class="forecast-rain">5%</span>
-            </article>
-
-            <article class="forecast-card">
-                <span class="forecast-day">Sáb</span>
-                <span class="forecast-icon">☁️</span>
-                <strong class="forecast-temp">25°</strong>
-                <span class="forecast-low">18°</span>
-                <span class="forecast-rain">35%</span>
-            </article>
+            {% include 'includes/forecast_card.html' with day='Hoje' icon='☀️' max_temp='28' min_temp='20' rain_chance='5' is_active=True %}
+            {% include 'includes/forecast_card.html' with day='Seg' icon='⛅' max_temp='26' min_temp='19' rain_chance='20' %}
+            {% include 'includes/forecast_card.html' with day='Ter' icon='🌧️' max_temp='24' min_temp='18' rain_chance='70' %}
+            {% include 'includes/forecast_card.html' with day='Qua' icon='🌦️' max_temp='23' min_temp='17' rain_chance='55' %}
+            {% include 'includes/forecast_card.html' with day='Qui' icon='☀️' max_temp='27' min_temp='19' rain_chance='10' %}
+            {% include 'includes/forecast_card.html' with day='Sex' icon='☀️' max_temp='29' min_temp='21' rain_chance='5' %}
+            {% include 'includes/forecast_card.html' with day='Sáb' icon='☁️' max_temp='25' min_temp='18' rain_chance='35' %}
 
         </div>
 
@@ -231,46 +144,13 @@
     <!-- EVENTOS -->
     <section class="events-section">
 
-        <div class="section-header">
-            <h2 class="section-title">Seus eventos</h2>
-            <a href="#" class="section-link">Ver todos →</a>
-        </div>
+        {% include 'includes/section_header.html' with title='Seus eventos' link_url='#' link_text='Ver todos →' %}
 
         <div class="events-list">
 
-            <article class="event-card event-danger">
+            {% include 'includes/event_card.html' with icon='☂️' title='Trilha Serra da Mantiqueira' description='Ter, 8 Abr · 70% chance de chuva' status='danger' status_label='Risco' %}
 
-                <div class="event-icon">
-                    ☂️
-                </div>
-
-                <div class="event-content">
-                    <h3 class="event-title">Trilha Serra da Mantiqueira</h3>
-                    <p class="event-description">Ter, 8 Abr · 70% chance de chuva</p>
-                </div>
-
-                <span class="event-status status-danger">
-                    Risco
-                </span>
-
-            </article>
-
-            <article class="event-card event-safe">
-
-                <div class="event-icon">
-                    ☀️
-                </div>
-
-                <div class="event-content">
-                    <h3 class="event-title">Churrasco no sítio</h3>
-                    <p class="event-description">Sex, 11 Abr · Tempo aberto, 29°C</p>
-                </div>
-
-                <span class="event-status status-safe">
-                    Seguro
-                </span>
-
-            </article>
+            {% include 'includes/event_card.html' with icon='☀️' title='Churrasco no sítio' description='Sex, 11 Abr · Tempo aberto, 29°C' status='safe' status_label='Seguro' %}
 
         </div>
 
