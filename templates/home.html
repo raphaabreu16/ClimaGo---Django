@@ -1,37 +1,345 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Climago</title>
+{% extends 'base.html' %}
 
-    {% load static %}
+{% block title %}ClimaGo - Previsão de Tempo Inteligente{% endblock %}
 
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-</head>
-<body>
+{% block content %}
 
-    <div class="container">
+<main class="dashboard-page">
 
-        <h1>☁️ Climago</h1>
+    <!-- HERO / CLIMA ATUAL -->
+    <section class="hero-weather-section">
 
-        <p>
-            Consulte previsão do tempo da sua cidade.
-        </p>
+        <div class="hero-overlay"></div>
 
-        <form method="POST">
+        <div class="hero-content">
 
-            {% csrf_token %}
+            <div class="hero-top">
 
-            {{ form }}
+                <div class="location-box">
+                    <span class="location-icon">📍</span>
+                    <div class="location-text">
+                        <span class="location-label">Localização atual</span>
+                        <strong class="location-name">Rio de Janeiro</strong>
+                    </div>
+                </div>
 
-            <button type="submit">
-                Pesquisar
-            </button>
+                <div class="confidence-badge">
+                    <span class="confidence-label">Confiança</span>
+                    <strong class="confidence-value">92%</strong>
+                </div>
 
-        </form>
+            </div>
 
-    </div>
+            <div class="current-weather">
 
-</body>
-</html>
+                <div class="weather-icon-main">
+                    ☀️
+                </div>
+
+                <div class="weather-info">
+                    <h1 class="current-temperature">
+                        28°
+                    </h1>
+
+                    <p class="weather-description">
+                        Ensolarado · Máx 30° / Mín 20°
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="weather-details">
+
+                {% include 'includes/weather_detail_item.html' with icon='💧' label='Umidade' value='62%' %}
+                {% include 'includes/weather_detail_item.html' with icon='💨' label='Vento' value='12 km/h' %}
+                {% include 'includes/weather_detail_item.html' with icon='👁️' label='UV' value='Alto' %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SCORE CLIMAGO -->
+    <section class="climago-score-section">
+
+        <article class="climago-score-card">
+
+            <div class="score-header">
+                <span class="score-icon">⚡</span>
+                <div>
+                    <h2 class="score-title">ClimaGo Score</h2>
+                    <p class="score-subtitle">Condição geral para atividades hoje</p>
+                </div>
+            </div>
+
+            <div class="score-content">
+                <strong class="score-number">86</strong>
+                <span class="score-status">Favorável</span>
+            </div>
+
+            <div class="score-bar">
+                <div class="score-bar-fill"></div>
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- CARDS DE JANELA IDEAL -->
+    <section class="smart-window-section">
+
+        {% include 'includes/smart_card.html' with icon='⚡' title='Melhor janela de 5 dias' text='Qui a Seg — clima estável, baixa chance de chuva.' card_class='safe-card' %}
+
+        {% include 'includes/smart_card.html' with icon='📅' title='Menor risco climático' text='Sexta-feira — 29°C, 5% de chuva, ideal para ar livre.' card_class='primary-card' %}
+
+    </section>
+
+
+    <!-- ALERTA PRINCIPAL -->
+    <section class="main-alert-section">
+
+        <article class="alert-card danger-alert">
+
+            <div class="alert-icon">
+                ⚠️
+            </div>
+
+            <div class="alert-content">
+                <h3 class="alert-title">Alerta de chuva forte</h3>
+                <p class="alert-text">
+                    Terça-feira — 70% de probabilidade. Seu evento pode ser afetado.
+                </p>
+            </div>
+
+            <span class="alert-arrow">›</span>
+
+        </article>
+
+    </section>
+
+
+    <!-- PREVISÃO 7 DIAS -->
+    <section class="forecast-section">
+
+        {% include 'includes/section_header.html' with title='Próximos 7 dias' link_url='#' link_text='Ver 30 dias →' %}
+
+        <div class="forecast-list">
+
+            {% include 'includes/forecast_card.html' with day='Hoje' icon='☀️' max_temp='28' min_temp='20' rain_chance='5' is_active=True %}
+            {% include 'includes/forecast_card.html' with day='Seg' icon='⛅' max_temp='26' min_temp='19' rain_chance='20' %}
+            {% include 'includes/forecast_card.html' with day='Ter' icon='🌧️' max_temp='24' min_temp='18' rain_chance='70' %}
+            {% include 'includes/forecast_card.html' with day='Qua' icon='🌦️' max_temp='23' min_temp='17' rain_chance='55' %}
+            {% include 'includes/forecast_card.html' with day='Qui' icon='☀️' max_temp='27' min_temp='19' rain_chance='10' %}
+            {% include 'includes/forecast_card.html' with day='Sex' icon='☀️' max_temp='29' min_temp='21' rain_chance='5' %}
+            {% include 'includes/forecast_card.html' with day='Sáb' icon='☁️' max_temp='25' min_temp='18' rain_chance='35' %}
+
+        </div>
+
+    </section>
+
+
+    <!-- EVENTOS -->
+    <section class="events-section">
+
+        {% include 'includes/section_header.html' with title='Seus eventos' link_url='#' link_text='Ver todos →' %}
+
+        <div class="events-list">
+
+            {% include 'includes/event_card.html' with icon='☂️' title='Trilha Serra da Mantiqueira' description='Ter, 8 Abr · 70% chance de chuva' status='danger' status_label='Risco' %}
+
+            {% include 'includes/event_card.html' with icon='☀️' title='Churrasco no sítio' description='Sex, 11 Abr · Tempo aberto, 29°C' status='safe' status_label='Seguro' %}
+
+        </div>
+
+    </section>
+
+
+    <!-- MONITORAMENTO AMBIENTAL -->
+    <section class="environment-section">
+
+        <div class="section-header">
+            <h2 class="section-title">Monitoramento ambiental</h2>
+        </div>
+
+        <div class="environment-list">
+
+            <article class="environment-card air-quality-card">
+
+                <div class="environment-card-header">
+
+                    <div class="environment-icon">
+                        🍃
+                    </div>
+
+                    <div class="environment-info">
+                        <h3 class="environment-title">Qualidade do Ar</h3>
+                        <span class="environment-status status-good">Boa</span>
+                    </div>
+
+                    <strong class="environment-value">35</strong>
+
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill air-progress"></div>
+                </div>
+
+                <div class="progress-labels">
+                    <span>Excelente</span>
+                    <span>Boa</span>
+                    <span>Moderada</span>
+                    <span>Ruim</span>
+                    <span>Perigosa</span>
+                </div>
+
+            </article>
+
+
+            <article class="environment-card pressure-card">
+
+                <div class="environment-card-header">
+
+                    <div class="environment-icon">
+                        🌡️
+                    </div>
+
+                    <div class="environment-info">
+                        <h3 class="environment-title">Pressão Atmosférica</h3>
+                        <span class="environment-status">Normal</span>
+                    </div>
+
+                    <strong class="environment-value">
+                        1013 <span class="environment-unit">hPa</span>
+                    </strong>
+
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill pressure-progress"></div>
+                </div>
+
+                <div class="progress-labels">
+                    <span>980</span>
+                    <span>1010</span>
+                    <span>1040</span>
+                </div>
+
+            </article>
+
+
+            <article class="environment-card disease-risk-card">
+
+                <div class="environment-card-header">
+
+                    <div class="environment-icon">
+                        🫀
+                    </div>
+
+                    <div class="environment-info">
+                        <h3 class="environment-title">Risco de Doenças</h3>
+                    </div>
+
+                </div>
+
+                <div class="disease-list">
+
+                    <div class="disease-item">
+                        <span class="disease-name">Dengue</span>
+                        <span class="disease-risk risk-high">Alto</span>
+                    </div>
+
+                    <div class="disease-item">
+                        <span class="disease-name">Gripe</span>
+                        <span class="disease-risk risk-moderate">Moderado</span>
+                    </div>
+
+                    <div class="disease-item">
+                        <span class="disease-name">Alergia respiratória</span>
+                        <span class="disease-risk risk-moderate">Moderado</span>
+                    </div>
+
+                </div>
+
+                <p class="environment-note">
+                    Baseado em temperatura, umidade e dados epidemiológicos da região.
+                </p>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- RECOMENDAÇÕES -->
+    <section class="recommendations-section">
+
+        <div class="section-header">
+            <h2 class="section-title">Recomendações do dia</h2>
+        </div>
+
+        <div class="recommendations-list">
+
+            <article class="recommendation-card">
+                <div class="recommendation-icon">🚶</div>
+
+                <div class="recommendation-content">
+                    <h3 class="recommendation-title">Atividades ao ar livre</h3>
+                    <p class="recommendation-text">
+                        Bom dia para caminhadas, mas evite horários de sol forte.
+                    </p>
+                </div>
+            </article>
+
+            <article class="recommendation-card">
+                <div class="recommendation-icon">💧</div>
+
+                <div class="recommendation-content">
+                    <h3 class="recommendation-title">Hidratação</h3>
+                    <p class="recommendation-text">
+                        Temperatura elevada. Mantenha garrafa de água por perto.
+                    </p>
+                </div>
+            </article>
+
+            <article class="recommendation-card">
+                <div class="recommendation-icon">🧴</div>
+
+                <div class="recommendation-content">
+                    <h3 class="recommendation-title">Proteção solar</h3>
+                    <p class="recommendation-text">
+                        Índice UV alto. Use protetor solar se sair durante o dia.
+                    </p>
+                </div>
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- SUGESTÃO INTELIGENTE -->
+    <section class="smart-suggestion-section">
+
+        <article class="suggestion-card">
+
+            <div class="suggestion-header">
+                <div class="suggestion-icon">☂️</div>
+                <h2 class="suggestion-title">Sugestão inteligente</h2>
+            </div>
+
+            <p class="suggestion-text">
+                Considere remarcar sua trilha de terça para quinta-feira. A previsão indica
+                tempo firme com 29°C e apenas 10% de chance de chuva.
+            </p>
+
+        </article>
+
+    </section>
+
+</main>
+
+{% endblock %}
