@@ -4,26 +4,27 @@
 
 {% block content %}
 
-<main class="dashboard-page">
+<main class="dashboard-page" aria-label="Painel inicial do ClimaGo">
 
     <!-- HERO / CLIMA ATUAL -->
-    <section class="hero-weather-section">
+    <section class="hero-weather-section" aria-labelledby="current-weather-title">
 
-        <div class="hero-overlay"></div>
+        <div class="hero-overlay" aria-hidden="true"></div>
 
         <div class="hero-content">
 
             <div class="hero-top">
 
-                <div class="location-box">
-                    <span class="location-icon">📍</span>
+                <div class="location-box" aria-label="Localização atual">
+                    <span class="location-icon" aria-hidden="true">📍</span>
+
                     <div class="location-text">
                         <span class="location-label">Localização atual</span>
                         <strong class="location-name">Rio de Janeiro</strong>
                     </div>
                 </div>
 
-                <div class="confidence-badge">
+                <div class="confidence-badge" aria-label="Nível de confiança da previsão">
                     <span class="confidence-label">Confiança</span>
                     <strong class="confidence-value">92%</strong>
                 </div>
@@ -32,12 +33,12 @@
 
             <div class="current-weather">
 
-                <div class="weather-icon-main">
+                <div class="weather-icon-main" aria-hidden="true">
                     ☀️
                 </div>
 
                 <div class="weather-info">
-                    <h1 class="current-temperature">
+                    <h1 class="current-temperature" id="current-weather-title">
                         28°
                     </h1>
 
@@ -48,11 +49,40 @@
 
             </div>
 
-            <div class="weather-details">
+            <div class="weather-details" aria-label="Detalhes do clima atual">
 
+                <article class="weather-detail-item">
+                    <span class="detail-icon" aria-hidden="true">💧</span>
+
+<<<<<<< HEAD
                 {% include 'includes/weather_detail_item.html' with icon='💧' label='Umidade' value='62%' %}
                 {% include 'includes/weather_detail_item.html' with icon='💨' label='Vento' value='12 km/h' %}
                 {% include 'includes/weather_detail_item.html' with icon='👁️' label='UV' value='Alto' %}
+=======
+                    <div>
+                        <span class="detail-label">Umidade</span>
+                        <strong class="detail-value">62%</strong>
+                    </div>
+                </article>
+
+                <article class="weather-detail-item">
+                    <span class="detail-icon" aria-hidden="true">💨</span>
+
+                    <div>
+                        <span class="detail-label">Vento</span>
+                        <strong class="detail-value">12 km/h</strong>
+                    </div>
+                </article>
+
+                <article class="weather-detail-item">
+                    <span class="detail-icon" aria-hidden="true">👁️</span>
+
+                    <div>
+                        <span class="detail-label">UV</span>
+                        <strong class="detail-value">Alto</strong>
+                    </div>
+                </article>
+>>>>>>> 5720d49 (Ajusta HTML e CSS da tela home)
 
             </div>
 
@@ -62,14 +92,15 @@
 
 
     <!-- SCORE CLIMAGO -->
-    <section class="climago-score-section">
+    <section class="climago-score-section" aria-labelledby="score-title">
 
         <article class="climago-score-card">
 
             <div class="score-header">
-                <span class="score-icon">⚡</span>
+                <span class="score-icon" aria-hidden="true">⚡</span>
+
                 <div>
-                    <h2 class="score-title">ClimaGo Score</h2>
+                    <h2 class="score-title" id="score-title">ClimaGo Score</h2>
                     <p class="score-subtitle">Condição geral para atividades hoje</p>
                 </div>
             </div>
@@ -79,7 +110,7 @@
                 <span class="score-status">Favorável</span>
             </div>
 
-            <div class="score-bar">
+            <div class="score-bar" aria-label="Pontuação de 86%">
                 <div class="score-bar-fill"></div>
             </div>
 
@@ -89,32 +120,57 @@
 
 
     <!-- CARDS DE JANELA IDEAL -->
-    <section class="smart-window-section">
+    <section class="smart-window-section" aria-label="Sugestões climáticas inteligentes">
 
+<<<<<<< HEAD
         {% include 'includes/smart_card.html' with icon='⚡' title='Melhor janela de 5 dias' text='Qui a Seg — clima estável, baixa chance de chuva.' card_class='safe-card' %}
 
         {% include 'includes/smart_card.html' with icon='📅' title='Menor risco climático' text='Sexta-feira — 29°C, 5% de chuva, ideal para ar livre.' card_class='primary-card' %}
+=======
+        <article class="smart-card safe-card">
+            <div class="smart-icon" aria-hidden="true">⚡</div>
+
+            <div class="smart-content">
+                <h3 class="smart-title">Melhor janela de 5 dias</h3>
+                <p class="smart-text">Qui a Seg — clima estável, baixa chance de chuva.</p>
+            </div>
+
+            <a href="#" class="smart-arrow" aria-label="Ver detalhes da melhor janela climática">›</a>
+        </article>
+
+        <article class="smart-card primary-card">
+            <div class="smart-icon" aria-hidden="true">📅</div>
+
+            <div class="smart-content">
+                <h3 class="smart-title">Menor risco climático</h3>
+                <p class="smart-text">Sexta-feira — 29°C, 5% de chuva, ideal para ar livre.</p>
+            </div>
+
+            <a href="#" class="smart-arrow" aria-label="Ver detalhes do menor risco climático">›</a>
+        </article>
+>>>>>>> 5720d49 (Ajusta HTML e CSS da tela home)
 
     </section>
 
 
     <!-- ALERTA PRINCIPAL -->
-    <section class="main-alert-section">
+    <section class="main-alert-section" aria-labelledby="alert-title">
 
         <article class="alert-card danger-alert">
 
-            <div class="alert-icon">
+            <div class="alert-icon" aria-hidden="true">
                 ⚠️
             </div>
 
             <div class="alert-content">
-                <h3 class="alert-title">Alerta de chuva forte</h3>
+                <h2 class="alert-title" id="alert-title">Alerta de chuva forte</h2>
+
                 <p class="alert-text">
                     Terça-feira — 70% de probabilidade. Seu evento pode ser afetado.
                 </p>
             </div>
 
-            <span class="alert-arrow">›</span>
+            <a href="#" class="alert-arrow" aria-label="Ver detalhes do alerta de chuva forte">›</a>
 
         </article>
 
@@ -122,12 +178,20 @@
 
 
     <!-- PREVISÃO 7 DIAS -->
-    <section class="forecast-section">
+    <section class="forecast-section" aria-labelledby="forecast-title">
 
+<<<<<<< HEAD
         {% include 'includes/section_header.html' with title='Próximos 7 dias' link_url='#' link_text='Ver 30 dias →' %}
+=======
+        <div class="section-header">
+            <h2 class="section-title" id="forecast-title">Próximos 7 dias</h2>
+            <a href="#" class="section-link">Ver 30 dias →</a>
+        </div>
+>>>>>>> 5720d49 (Ajusta HTML e CSS da tela home)
 
-        <div class="forecast-list">
+        <div class="forecast-list" aria-label="Previsão do tempo para os próximos sete dias">
 
+<<<<<<< HEAD
             {% include 'includes/forecast_card.html' with day='Hoje' icon='☀️' max_temp='28' min_temp='20' rain_chance='5' is_active=True %}
             {% include 'includes/forecast_card.html' with day='Seg' icon='⛅' max_temp='26' min_temp='19' rain_chance='20' %}
             {% include 'includes/forecast_card.html' with day='Ter' icon='🌧️' max_temp='24' min_temp='18' rain_chance='70' %}
@@ -135,6 +199,63 @@
             {% include 'includes/forecast_card.html' with day='Qui' icon='☀️' max_temp='27' min_temp='19' rain_chance='10' %}
             {% include 'includes/forecast_card.html' with day='Sex' icon='☀️' max_temp='29' min_temp='21' rain_chance='5' %}
             {% include 'includes/forecast_card.html' with day='Sáb' icon='☁️' max_temp='25' min_temp='18' rain_chance='35' %}
+=======
+            <article class="forecast-card forecast-active">
+                <span class="forecast-day">Hoje</span>
+                <span class="forecast-icon" aria-hidden="true">☀️</span>
+                <strong class="forecast-temp">28°</strong>
+                <span class="forecast-low">20°</span>
+                <span class="forecast-rain">5%</span>
+            </article>
+
+            <article class="forecast-card">
+                <span class="forecast-day">Seg</span>
+                <span class="forecast-icon" aria-hidden="true">⛅</span>
+                <strong class="forecast-temp">26°</strong>
+                <span class="forecast-low">19°</span>
+                <span class="forecast-rain">20%</span>
+            </article>
+
+            <article class="forecast-card">
+                <span class="forecast-day">Ter</span>
+                <span class="forecast-icon" aria-hidden="true">🌧️</span>
+                <strong class="forecast-temp">24°</strong>
+                <span class="forecast-low">18°</span>
+                <span class="forecast-rain">70%</span>
+            </article>
+
+            <article class="forecast-card">
+                <span class="forecast-day">Qua</span>
+                <span class="forecast-icon" aria-hidden="true">🌦️</span>
+                <strong class="forecast-temp">23°</strong>
+                <span class="forecast-low">17°</span>
+                <span class="forecast-rain">55%</span>
+            </article>
+
+            <article class="forecast-card">
+                <span class="forecast-day">Qui</span>
+                <span class="forecast-icon" aria-hidden="true">☀️</span>
+                <strong class="forecast-temp">27°</strong>
+                <span class="forecast-low">19°</span>
+                <span class="forecast-rain">10%</span>
+            </article>
+
+            <article class="forecast-card">
+                <span class="forecast-day">Sex</span>
+                <span class="forecast-icon" aria-hidden="true">☀️</span>
+                <strong class="forecast-temp">29°</strong>
+                <span class="forecast-low">21°</span>
+                <span class="forecast-rain">5%</span>
+            </article>
+
+            <article class="forecast-card">
+                <span class="forecast-day">Sáb</span>
+                <span class="forecast-icon" aria-hidden="true">☁️</span>
+                <strong class="forecast-temp">25°</strong>
+                <span class="forecast-low">18°</span>
+                <span class="forecast-rain">35%</span>
+            </article>
+>>>>>>> 5720d49 (Ajusta HTML e CSS da tela home)
 
         </div>
 
@@ -142,15 +263,56 @@
 
 
     <!-- EVENTOS -->
-    <section class="events-section">
+    <section class="events-section" aria-labelledby="events-title">
 
+<<<<<<< HEAD
         {% include 'includes/section_header.html' with title='Seus eventos' link_url='#' link_text='Ver todos →' %}
+=======
+        <div class="section-header">
+            <h2 class="section-title" id="events-title">Seus eventos</h2>
+            <a href="#" class="section-link">Ver todos →</a>
+        </div>
+>>>>>>> 5720d49 (Ajusta HTML e CSS da tela home)
 
         <div class="events-list">
 
             {% include 'includes/event_card.html' with icon='☂️' title='Trilha Serra da Mantiqueira' description='Ter, 8 Abr · 70% chance de chuva' status='danger' status_label='Risco' %}
 
+<<<<<<< HEAD
             {% include 'includes/event_card.html' with icon='☀️' title='Churrasco no sítio' description='Sex, 11 Abr · Tempo aberto, 29°C' status='safe' status_label='Seguro' %}
+=======
+                <div class="event-icon" aria-hidden="true">
+                    ☂️
+                </div>
+
+                <div class="event-content">
+                    <h3 class="event-title">Trilha Serra da Mantiqueira</h3>
+                    <p class="event-description">Ter, 8 Abr · 70% chance de chuva</p>
+                </div>
+
+                <span class="event-status status-danger">
+                    Risco
+                </span>
+
+            </article>
+
+            <article class="event-card event-safe">
+
+                <div class="event-icon" aria-hidden="true">
+                    ☀️
+                </div>
+
+                <div class="event-content">
+                    <h3 class="event-title">Churrasco no sítio</h3>
+                    <p class="event-description">Sex, 11 Abr · Tempo aberto, 29°C</p>
+                </div>
+
+                <span class="event-status status-safe">
+                    Seguro
+                </span>
+
+            </article>
+>>>>>>> 5720d49 (Ajusta HTML e CSS da tela home)
 
         </div>
 
@@ -158,10 +320,10 @@
 
 
     <!-- MONITORAMENTO AMBIENTAL -->
-    <section class="environment-section">
+    <section class="environment-section" aria-labelledby="environment-title">
 
         <div class="section-header">
-            <h2 class="section-title">Monitoramento ambiental</h2>
+            <h2 class="section-title" id="environment-title">Monitoramento ambiental</h2>
         </div>
 
         <div class="environment-list">
@@ -170,7 +332,7 @@
 
                 <div class="environment-card-header">
 
-                    <div class="environment-icon">
+                    <div class="environment-icon" aria-hidden="true">
                         🍃
                     </div>
 
@@ -183,11 +345,11 @@
 
                 </div>
 
-                <div class="progress-bar">
+                <div class="progress-bar" aria-label="Qualidade do ar em 35%">
                     <div class="progress-fill air-progress"></div>
                 </div>
 
-                <div class="progress-labels">
+                <div class="progress-labels" aria-hidden="true">
                     <span>Excelente</span>
                     <span>Boa</span>
                     <span>Moderada</span>
@@ -202,7 +364,7 @@
 
                 <div class="environment-card-header">
 
-                    <div class="environment-icon">
+                    <div class="environment-icon" aria-hidden="true">
                         🌡️
                     </div>
 
@@ -217,11 +379,11 @@
 
                 </div>
 
-                <div class="progress-bar">
+                <div class="progress-bar" aria-label="Pressão atmosférica normal">
                     <div class="progress-fill pressure-progress"></div>
                 </div>
 
-                <div class="progress-labels">
+                <div class="progress-labels" aria-hidden="true">
                     <span>980</span>
                     <span>1010</span>
                     <span>1040</span>
@@ -234,7 +396,7 @@
 
                 <div class="environment-card-header">
 
-                    <div class="environment-icon">
+                    <div class="environment-icon" aria-hidden="true">
                         🫀
                     </div>
 
@@ -275,16 +437,16 @@
 
 
     <!-- RECOMENDAÇÕES -->
-    <section class="recommendations-section">
+    <section class="recommendations-section" aria-labelledby="recommendations-title">
 
         <div class="section-header">
-            <h2 class="section-title">Recomendações do dia</h2>
+            <h2 class="section-title" id="recommendations-title">Recomendações do dia</h2>
         </div>
 
         <div class="recommendations-list">
 
             <article class="recommendation-card">
-                <div class="recommendation-icon">🚶</div>
+                <div class="recommendation-icon" aria-hidden="true">🚶</div>
 
                 <div class="recommendation-content">
                     <h3 class="recommendation-title">Atividades ao ar livre</h3>
@@ -295,7 +457,7 @@
             </article>
 
             <article class="recommendation-card">
-                <div class="recommendation-icon">💧</div>
+                <div class="recommendation-icon" aria-hidden="true">💧</div>
 
                 <div class="recommendation-content">
                     <h3 class="recommendation-title">Hidratação</h3>
@@ -306,7 +468,7 @@
             </article>
 
             <article class="recommendation-card">
-                <div class="recommendation-icon">🧴</div>
+                <div class="recommendation-icon" aria-hidden="true">🧴</div>
 
                 <div class="recommendation-content">
                     <h3 class="recommendation-title">Proteção solar</h3>
@@ -322,13 +484,13 @@
 
 
     <!-- SUGESTÃO INTELIGENTE -->
-    <section class="smart-suggestion-section">
+    <section class="smart-suggestion-section" aria-labelledby="suggestion-title">
 
         <article class="suggestion-card">
 
             <div class="suggestion-header">
-                <div class="suggestion-icon">☂️</div>
-                <h2 class="suggestion-title">Sugestão inteligente</h2>
+                <div class="suggestion-icon" aria-hidden="true">☂️</div>
+                <h2 class="suggestion-title" id="suggestion-title">Sugestão inteligente</h2>
             </div>
 
             <p class="suggestion-text">
