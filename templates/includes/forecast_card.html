@@ -1,0 +1,8 @@
+{# Card de previsão individual para a seção de 7 dias #}
+<article class="forecast-card {% if is_active %}forecast-active{% endif %}">
+    <span class="forecast-day">{{ day }}</span>
+    <span class="forecast-icon">{{ icon }}</span>
+    <strong class="forecast-temp">{{ max_temp }}°</strong>
+    <span class="forecast-low">{{ min_temp }}°</span>
+    <span class="forecast-rain">{{ rain_chance }}%</span>
+</article>
