@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário Climático</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <div class="calendario-container">
+
+        <h1>📅 Calendário Climático</h1>
+
+        <p>
+            Veja a previsão do clima da semana.
+        </p>
+
+        <div class="dias">
+
+            <div class="dia-card">
+                <h3>Segunda</h3>
+                <p>☀️ 26°C</p>
+            </div>
+
+            <div class="dia-card">
+                <h3>Terça</h3>
+                <p>🌧️ 21°C</p>
+            </div>
+
+            <div class="dia-card">
+                <h3>Quarta</h3>
+                <p>⛅ 24°C</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
