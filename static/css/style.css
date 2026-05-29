@@ -631,3 +631,47 @@ a {
         gap: 38px;
     }
 }
+/*Aqui*/
+.calendario-container{
+    padding: 40px;
+
+    text-align: center;
+}
+
+.calendario-container h1{
+    color: #2563eb;
+
+    margin-bottom: 10px;
+}
+
+.calendario-container p{
+    margin-bottom: 30px;
+
+    color: #555;
+}
+
+.dias{
+    display: flex;
+
+    justify-content: center;
+
+    gap: 20px;
+
+    flex-wrap: wrap;
+}
+
+.dia-card{
+    background-color: white;
+
+    width: 180px;
+
+    padding: 20px;
+
+    border-radius: 15px;
+
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+}
+
+.dia-card h3{
+    margin-bottom: 10px;
+}
