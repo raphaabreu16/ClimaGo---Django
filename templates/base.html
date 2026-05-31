@@ -9,6 +9,19 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
+<nav class="bottom-nav" aria-label="Navegação principal">
+
+    <a href="{% url 'home' %}" class="bottom-nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+    <span class="bottom-nav-icon">⌂</span>
+    <span class="bottom-nav-label">Início</span>
+</a>
+
+    <a href="{% url 'previsao' %}" class="bottom-nav-item {% if request.resolver_match.url_name == 'previsao' %}active{% endif %}">
+    <span class="bottom-nav-icon">📊</span>
+    <span class="bottom-nav-label">Previsão</span>
+</a>
+
+</nav>
 <body>
     {% block content %}
     {% endblock %}
