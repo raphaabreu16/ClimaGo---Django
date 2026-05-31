@@ -742,3 +742,422 @@ a {
     border-radius: 999px;
     background: #2563eb;
 }
+/* PÁGINA PREVISÃO DETALHADA */
+
+.forecast-page {
+    max-width: 520px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 44px 20px 110px;
+    background: var(--background);
+}
+
+.forecast-header {
+    margin-bottom: 22px;
+}
+
+.forecast-header h1 {
+    margin: 0 0 12px;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.forecast-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: var(--shadow-card);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.forecast-location-icon {
+    color: var(--primary);
+}
+
+/* SELETOR DE PERÍODO */
+
+.period-selector-section {
+    margin-bottom: 18px;
+}
+
+.period-selector {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 6px;
+    background: #eaf0f7;
+    border-radius: 18px;
+}
+
+.period-button {
+    border: none;
+    padding: 12px 8px;
+    border-radius: 14px;
+    background: transparent;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.period-button.active {
+    background: var(--card);
+    color: var(--text);
+    box-shadow: var(--shadow-card);
+}
+
+/* INSTRUÇÃO */
+
+.range-instruction {
+    margin-bottom: 18px;
+}
+
+.range-instruction-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.range-instruction-content p {
+    margin: 0;
+}
+
+.range-icon {
+    color: var(--primary);
+}
+
+/* CARD PADRÃO */
+
+.temperature-chart-card,
+.range-analysis-card,
+.best-window-card,
+.selected-day-card,
+.confidence-explanation-card {
+    background: var(--card);
+    border-radius: 24px;
+    box-shadow: var(--shadow-card);
+    padding: 18px;
+}
+
+/* GRÁFICO */
+
+.temperature-chart-section {
+    margin-bottom: 24px;
+}
+
+.chart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.chart-header h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.chart-legend {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+
+.forecast-dot {
+    background: var(--primary);
+}
+
+.history-dot {
+    background: #cbd5e1;
+}
+
+.temperature-chart {
+    height: 150px;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.temperature-chart::-webkit-scrollbar {
+    display: none;
+}
+
+.chart-day {
+    min-width: 46px;
+    border: none;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.chart-temp-label {
+    font-size: 10px;
+    color: var(--muted);
+    opacity: 0;
+}
+
+.chart-day:hover .chart-temp-label {
+    opacity: 1;
+}
+
+.chart-bars {
+    height: 92px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 3px;
+}
+
+.forecast-bar,
+.historic-bar {
+    width: 13px;
+    border-radius: 999px;
+}
+
+.forecast-bar {
+    background: rgba(37, 99, 235, 0.45);
+}
+
+.historic-bar {
+    background: #dbe1e8;
+}
+
+.chart-day.selected .forecast-bar,
+.chart-day.range-selected .forecast-bar {
+    background: var(--primary);
+}
+
+.chart-day-label {
+    font-size: 10px;
+    color: var(--muted);
+}
+
+/* ANÁLISE DO PERÍODO */
+
+.range-analysis-section,
+.best-window-section,
+.selected-day-section,
+.confidence-explanation-section {
+    margin-bottom: 24px;
+}
+
+.range-analysis-card {
+    border: 1px solid rgba(37, 99, 235, 0.22);
+}
+
+.range-analysis-header,
+.best-window-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.range-analysis-header h2,
+.best-window-header h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.range-analysis-icon {
+    color: var(--primary);
+}
+
+.range-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.range-metric,
+.weather-metric-card {
+    background: #edf2f7;
+    border-radius: 16px;
+    padding: 12px 8px;
+    text-align: center;
+}
+
+.metric-label,
+.weather-metric-label {
+    display: block;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 4px;
+}
+
+.metric-value,
+.weather-metric-value {
+    font-size: 13px;
+    color: var(--text);
+}
+
+.score-good {
+    color: var(--safe);
+}
+
+.range-score-bar {
+    height: 8px;
+    border-radius: 999px;
+    background: #edf2f7;
+    overflow: hidden;
+}
+
+.range-score-fill {
+    width: 82%;
+    height: 100%;
+    background: var(--safe);
+    border-radius: inherit;
+}
+
+.range-analysis-text {
+    margin: 10px 0 0;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/* MELHOR JANELA */
+
+.best-window-card {
+    border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.best-window-icon {
+    color: var(--safe);
+}
+
+.best-window-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.best-window-card strong {
+    color: var(--text);
+}
+
+/* DIA SELECIONADO */
+
+.selected-day-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.selected-day-weather {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.selected-day-icon {
+    font-size: 42px;
+}
+
+.selected-day-weather h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.selected-day-weather p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.confidence-badge-page,
+.confidence-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.high-confidence {
+    color: #16a34a;
+    background: #dcfce7;
+}
+
+.medium-confidence {
+    color: #d97706;
+    background: #fef3c7;
+}
+
+.low-confidence {
+    color: #dc2626;
+    background: #fee2e2;
+}
+
+.weather-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.weather-metric-icon {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+/* CONFIABILIDADE */
+
+.confidence-explanation-card h2 {
+    margin: 0 0 10px;
+    font-size: 16px;
+}
+
+.confidence-explanation-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.confidence-list {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+/* RESPONSIVO PREVISÃO */
+
+@media (min-width: 768px) {
+    .forecast-page {
+        max-width: 760px;
+    }
+}
