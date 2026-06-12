@@ -20,7 +20,12 @@
     <span class="bottom-nav-icon">📊</span>
     <span class="bottom-nav-label">Previsão</span>
 </a>
-
+    
+<a href="{% url 'eventos' %}" class="bottom-nav-item {% if request.resolver_match.url_name == 'eventos' %}active{% endif %}">
+    <span class="bottom-nav-icon">📅</span>
+    <span class="bottom-nav-label">Eventos</span>
+</a>
+    
 </nav>
 <body>
     {% block content %}
