@@ -37,4 +37,9 @@ def pesquisar_clima(request):
             'cidade': cidade
         }
     )
-    
+
+def alertas(request):
+    return render(request, 'core/alertas.html')
+
+def config(request):
+    return render(request, 'core/config.html')
