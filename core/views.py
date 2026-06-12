@@ -15,3 +15,26 @@ def calendario(request):
 
 def eventos(request):
     return render(request, 'core/eventos.html')
+
+def pesquisar_clima(request):
+
+    cidade = None
+
+    if request.method == 'POST':
+        form = PesquisaClimaForm(request.POST)
+
+        if form.is_valid():
+            cidade = form.cleaned_data['cidade']
+
+    else:
+        form = PesquisaClimaForm()
+
+    return render(
+        request,
+        'pesquisa_clima.html',
+        {
+            'form': form,
+            'cidade': cidade
+        }
+    )
+    
