@@ -7,4 +7,6 @@ urlpatterns = [
     path('calendario/', views.calendario, name='calendario'),
     path('eventos/', views.eventos, name='eventos'),
     path('pesquisa-clima/', views.pesquisar_clima, name='pesquisa_clima'),
+    path('alertas/', views.alertas, name='alertas'),
+    path('config/', views.config, name='config'),
 ]
