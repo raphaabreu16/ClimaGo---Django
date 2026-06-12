@@ -11,3 +11,7 @@ def previsao(request):
 
 def calendario(request):
     return render(request, 'core/calendario.html')
+
+
+def eventos(request):
+    return render(request, 'core/eventos.html')
