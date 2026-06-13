@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .forms import PesquisaClimaForm, CadastroForm
+from django.contrib.auth import (authenticate,login)
+from .forms import PesquisaClimaForm, CadastroForm, LoginForm
 
 def home(request):
     return render(request, 'core/home.html')
@@ -78,3 +79,60 @@ def cadastro(request):
             'erro': erro
         }
     ) 
+def login_view(request):
+
+    erro = None
+
+    if request.method == 'POST':
+
+        form = LoginForm(
+            request.POST
+        )
+
+        if form.is_valid():
+
+            username = (
+                form.cleaned_data[
+                    'username'
+                ]
+            )
+
+            password = (
+                form.cleaned_data[
+                    'password'
+                ]
+            )
+
+            usuario = authenticate(
+                request,
+                username=username,
+                password=password
+            )
+
+            if usuario:
+
+                login(
+                    request,
+                    usuario
+                )
+
+                return redirect(
+                    'home'
+                )
+
+            erro = (
+                'Usuário ou senha inválidos'
+            )
+
+    else:
+
+        form = LoginForm()
+
+    return render(
+        request,
+        'login.html',
+        {
+            'form': form,
+            'erro': erro
+        }
+    )
