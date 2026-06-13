@@ -1,0 +1,59 @@
+<a href="{% url 'home' %}"
+class="bottom-nav-item">
+
+⌂ Início
+
+</a>
+
+
+<a href="{% url 'previsao' %}"
+class="bottom-nav-item">
+
+📊 Previsão
+
+</a>
+
+
+{% if user.is_authenticated %}
+
+<a href="{% url 'calendario' %}"
+class="bottom-nav-item">
+
+📅 Calendário
+
+</a>
+
+
+<a href="{% url 'eventos' %}"
+class="bottom-nav-item">
+
+⚡ Eventos
+
+</a>
+
+
+<a href="{% url 'logout' %}"
+class="bottom-nav-item">
+
+🚪 Sair
+
+</a>
+
+{% else %}
+
+<a href="{% url 'login' %}"
+class="bottom-nav-item">
+
+Entrar
+
+</a>
+
+
+<a href="{% url 'cadastro' %}"
+class="bottom-nav-item">
+
+Cadastro
+
+</a>
+
+{% endif %}
