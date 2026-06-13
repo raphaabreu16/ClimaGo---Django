@@ -1533,3 +1533,50 @@ a {
         margin: 0 auto;
     }
 }
+
+.mes-selector{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.mes-selector button{
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    background:#2563eb;
+    color:white;
+}
+
+.destaque{
+    border:2px solid #2563eb;
+    transform:scale(1.05);
+}
+
+.dia-card small{
+    color:#666;
+    font-size:14px;
+}
+
+.legenda{
+    margin-top:30px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.tempo-bom{
+    color:green;
+}
+
+.atencao{
+    color:orange;
+}
+
+.risco{
+    color:red;
+}
