@@ -7,7 +7,7 @@ class PesquisaClimaForm(forms.Form):
         label='Cidade',
         max_length=100
     )
-    
+
 class CadastroForm(forms.Form):
 
     username = forms.CharField(
@@ -16,6 +16,17 @@ class CadastroForm(forms.Form):
     )
 
     email = forms.EmailField()
+
+    password = forms.CharField(
+        label='Senha',
+        widget=forms.PasswordInput()
+    )
+    
+class LoginForm(forms.Form):
+
+    username = forms.CharField(
+        label='Usuário'
+    )
 
     password = forms.CharField(
         label='Senha',
