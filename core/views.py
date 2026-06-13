@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import (authenticate,login,logout)
 from .forms import PesquisaClimaForm, CadastroForm, LoginForm
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     return render(request, 'core/home.html')
@@ -10,11 +11,11 @@ def home(request):
 def previsao(request):
     return render(request, 'core/previsao.html')
 
-
+@login_required
 def calendario(request):
     return render(request, 'core/calendario.html')
 
-
+@login_required
 def eventos(request):
     return render(request, 'core/eventos.html')
 
@@ -143,3 +144,6 @@ def logout_view(request):
     return redirect(
         'home'
     )
+LOGIN_URL='login'
+
+LOGIN_REDIRECT_URL='home'
