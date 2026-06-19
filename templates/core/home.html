@@ -19,6 +19,8 @@
         </button>
     </form>
 
+    {% if weather %}
+
     <!-- HERO / CLIMA ATUAL -->
     <section class="hero-weather-section">
 
@@ -334,7 +336,6 @@
 
     </section>
 
-
     <!-- SUGESTÃO INTELIGENTE -->
     <section class="smart-suggestion-section">
 
@@ -353,6 +354,17 @@
         </article>
 
     </section>
+
+</main>
+
+{% else %}
+
+<section class="weather-error">
+    <h2>Não foi possível carregar o clima.</h2>
+    <p>Verifique o nome da cidade ou tente novamente.</p>
+</section>
+
+{% endif %}
 
 </main>
 
