@@ -17,9 +17,10 @@
 
                 <div class="location-box">
                     <span class="location-icon">📍</span>
+
                     <div class="location-text">
                         <span class="location-label">Localização atual</span>
-                        <strong class="location-name">Rio de Janeiro</strong>
+                        <strong class="location-name">{{ weather.city }}</strong>
                     </div>
                 </div>
 
@@ -38,11 +39,11 @@
 
                 <div class="weather-info">
                     <h1 class="current-temperature">
-                        28°
+                        {{ weather.temperature }}°
                     </h1>
 
                     <p class="weather-description">
-                        Ensolarado · Máx 30° / Mín 20°
+                        Dados climáticos em tempo real
                     </p>
                 </div>
 
@@ -50,8 +51,10 @@
 
             <div class="weather-details">
 
-                {% include 'includes/weather_detail_item.html' with icon='💧' label='Umidade' value='62%' %}
-                {% include 'includes/weather_detail_item.html' with icon='💨' label='Vento' value='12 km/h' %}
+                {% include 'includes/weather_detail_item.html' with icon='💧' label='Umidade' value=weather.humidity unit='%' %}
+
+                {% include 'includes/weather_detail_item.html' with icon='💨' label='Vento' value=weather.wind_speed unit='km/h' %}
+
                 {% include 'includes/weather_detail_item.html' with icon='👁️' label='UV' value='Alto' %}
 
             </div>
@@ -68,6 +71,7 @@
 
             <div class="score-header">
                 <span class="score-icon">⚡</span>
+
                 <div>
                     <h2 class="score-title">ClimaGo Score</h2>
                     <p class="score-subtitle">Condição geral para atividades hoje</p>
@@ -109,6 +113,7 @@
 
             <div class="alert-content">
                 <h3 class="alert-title">Alerta de chuva forte</h3>
+
                 <p class="alert-text">
                     Terça-feira — 70% de probabilidade. Seu evento pode ser afetado.
                 </p>
