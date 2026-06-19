@@ -1628,3 +1628,28 @@ a {
     border-radius:15px;
     box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
+
+@media (max-width: 768px) {
+
+    .alertas-container,
+    .config-container {
+        padding: 20px;
+    }
+
+    .alerta-card,
+    .config-card {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .alerta-card h3,
+    .config-card h3 {
+        font-size: 18px;
+    }
+
+    .alerta-card p,
+    .config-card p {
+        font-size: 14px;
+    }
+
+}
