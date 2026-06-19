@@ -6,6 +6,19 @@
 
 <main class="dashboard-page">
 
+    <form method="GET" class="search-weather-form">
+        <input
+            type="text"
+            name="city"
+            placeholder="Digite uma cidade"
+            value="{{ city_search }}"
+        >
+
+        <button type="submit">
+            Buscar clima
+        </button>
+    </form>
+
     <!-- HERO / CLIMA ATUAL -->
     <section class="hero-weather-section">
 
