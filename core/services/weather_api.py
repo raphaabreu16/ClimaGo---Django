@@ -8,7 +8,7 @@ def get_coordinates(city_name):
         "name": city_name,
         "count": 1,
         "language": "pt",
-        "format": "json"
+        "format": "json",
     }
 
     response = requests.get(geocoding_url, params=params, timeout=10)
@@ -26,7 +26,7 @@ def get_coordinates(city_name):
         "country": location.get("country", ""),
         "latitude": location["latitude"],
         "longitude": location["longitude"],
-        "timezone": location.get("timezone", "America/Sao_Paulo")
+        "timezone": location.get("timezone", "America/Sao_Paulo"),
     }
 
 
@@ -40,6 +40,7 @@ def get_weather(city_name="Rio de Janeiro"):
             "humidity": "--",
             "wind_speed": "--",
             "weather_code": None,
+            "forecast": [],
         }
 
     forecast_url = "https://api.open-meteo.com/v1/forecast"
@@ -48,7 +49,9 @@ def get_weather(city_name="Rio de Janeiro"):
         "latitude": location["latitude"],
         "longitude": location["longitude"],
         "current": "temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code",
-        "timezone": location["timezone"]
+        "daily": "temperature_2m_max,temperature_2m_min,precipitation_probability_max",
+        "timezone": location["timezone"],
+        "forecast_days": 7,
     }
 
     response = requests.get(forecast_url, params=params, timeout=10)
@@ -56,6 +59,7 @@ def get_weather(city_name="Rio de Janeiro"):
 
     data = response.json()
     current = data["current"]
+    daily = data["daily"]
 
     return {
         "city": location["city"],
@@ -64,4 +68,21 @@ def get_weather(city_name="Rio de Janeiro"):
         "humidity": current["relative_humidity_2m"],
         "wind_speed": round(current["wind_speed_10m"]),
         "weather_code": current["weather_code"],
+        "forecast": format_forecast(daily),
     }
+
+
+def format_forecast(daily):
+    forecast = []
+
+    for index, date in enumerate(daily["time"]):
+        forecast.append(
+            {
+                "date": date,
+                "max_temp": round(daily["temperature_2m_max"][index]),
+                "min_temp": round(daily["temperature_2m_min"][index]),
+                "rain_chance": daily["precipitation_probability_max"][index],
+            }
+        )
+
+    return forecast
