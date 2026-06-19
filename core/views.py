@@ -40,6 +40,7 @@ def pesquisar_clima(request):
             'cidade': cidade
         }
     )
+<<<<<<< HEAD
 def cadastro(request):
 
     erro = None
@@ -147,3 +148,11 @@ def logout_view(request):
 LOGIN_URL='login'
 
 LOGIN_REDIRECT_URL='home'
+=======
+
+def alertas(request):
+    return render(request, 'core/alertas.html')
+
+def config(request):
+    return render(request, 'core/config.html')
+>>>>>>> 0deb9d4abfffe2852ccbd9232eaa264978aa8506

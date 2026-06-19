@@ -4,9 +4,339 @@
 
 {% block content %}
 
-<main class="page-content">
-    <h1>Eventos</h1>
-    <p>Essa será a tela de eventos climáticos.</p>
+<main class="events-page">
+
+    <!-- CABEÇALHO -->
+    <section class="events-header">
+        <div>
+            <h1>Eventos</h1>
+            <p>5 eventos planejados</p>
+        </div>
+
+        <a href="#novo-evento" class="add-event-button" aria-label="Adicionar novo evento">
+            +
+        </a>
+    </section>
+
+
+    <!-- FILTROS -->
+    <section class="events-filter-section" aria-label="Filtrar eventos">
+
+        <div class="events-filter-list">
+            <button type="button" class="events-filter-button active">
+                Todos
+            </button>
+
+            <button type="button" class="events-filter-button">
+                Seguro
+            </button>
+
+            <button type="button" class="events-filter-button">
+                Atenção
+            </button>
+
+            <button type="button" class="events-filter-button">
+                Risco
+            </button>
+        </div>
+
+    </section>
+
+
+    <!-- LISTA DE EVENTOS -->
+    <section class="events-page-list" aria-label="Lista de eventos planejados">
+
+        <!-- EVENTO RISCO -->
+        <article class="event-page-card event-page-danger">
+
+            <div class="event-page-main">
+
+                <div class="event-page-icon">
+                    🌧️
+                </div>
+
+                <div class="event-page-info">
+
+                    <div class="event-page-title-row">
+                        <h2>Trilha Serra da Mantiqueira</h2>
+                        <span class="event-page-status status-danger">Risco</span>
+                    </div>
+
+                    <p class="event-page-date">
+                        📅 Ter, 8 Abr · 07:00
+                    </p>
+
+                    <p class="event-page-location">
+                        📍 Campos do Jordão, SP
+                    </p>
+
+                    <div class="event-page-weather">
+                        <span>☀️ 18°C</span>
+                        <span>🌧️ 70% chuva</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="event-page-compatibility danger-text">
+                ☀️ Baixa — previsão de chuva
+            </div>
+
+            <div class="event-page-suggestion danger-suggestion">
+                ☂️ Considere remarcar para Qui, 10 Abr
+            </div>
+
+        </article>
+
+
+        <!-- EVENTO ATENÇÃO -->
+        <article class="event-page-card event-page-warning">
+
+            <div class="event-page-main">
+
+                <div class="event-page-icon">
+                    ☁️
+                </div>
+
+                <div class="event-page-info">
+
+                    <div class="event-page-title-row">
+                        <h2>Reunião ao ar livre</h2>
+                        <span class="event-page-status status-warning">Atenção</span>
+                    </div>
+
+                    <p class="event-page-date">
+                        📅 Qua, 9 Abr · 14:00
+                    </p>
+
+                    <p class="event-page-location">
+                        📍 Parque Ibirapuera, SP
+                    </p>
+
+                    <div class="event-page-weather">
+                        <span>☀️ 23°C</span>
+                        <span>🌧️ 55% chuva</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="event-page-compatibility warning-text">
+                🌤️ Média — temperatura agradável mas instável
+            </div>
+
+            <div class="event-page-suggestion warning-suggestion">
+                ☂️ Leve um guarda-chuva por precaução
+            </div>
+
+        </article>
+
+
+        <!-- EVENTO SEGURO -->
+        <article class="event-page-card event-page-safe">
+
+            <div class="event-page-main">
+
+                <div class="event-page-icon">
+                    ☀️
+                </div>
+
+                <div class="event-page-info">
+
+                    <div class="event-page-title-row">
+                        <h2>Churrasco no sítio</h2>
+                        <span class="event-page-status status-safe">Seguro</span>
+                    </div>
+
+                    <p class="event-page-date">
+                        📅 Sex, 11 Abr · 12:00
+                    </p>
+
+                    <p class="event-page-location">
+                        📍 Atibaia, SP
+                    </p>
+
+                    <div class="event-page-weather">
+                        <span>☀️ 29°C</span>
+                        <span>🌧️ 10% chuva</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="event-page-compatibility safe-text">
+                ☀️ Alta — sol e tempo aberto
+            </div>
+
+        </article>
+
+
+        <!-- EVENTO ATENÇÃO -->
+        <article class="event-page-card event-page-warning">
+
+            <div class="event-page-main">
+
+                <div class="event-page-icon">
+                    ⛅
+                </div>
+
+                <div class="event-page-info">
+
+                    <div class="event-page-title-row">
+                        <h2>Casamento na praia</h2>
+                        <span class="event-page-status status-warning">Atenção</span>
+                    </div>
+
+                    <p class="event-page-date">
+                        📅 Sáb, 19 Abr · 16:00
+                    </p>
+
+                    <p class="event-page-location">
+                        📍 Ubatuba, SP
+                    </p>
+
+                    <div class="event-page-weather">
+                        <span>☀️ 27°C</span>
+                        <span>🌧️ 25% chuva</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="event-page-compatibility warning-text">
+                ☀️ Média — parcialmente nublado
+            </div>
+
+            <div class="event-page-suggestion warning-suggestion">
+                ☂️ Tenha um plano B para área coberta
+            </div>
+
+        </article>
+
+
+        <!-- EVENTO SEGURO -->
+        <article class="event-page-card event-page-safe">
+
+            <div class="event-page-main">
+
+                <div class="event-page-icon">
+                    ☀️
+                </div>
+
+                <div class="event-page-info">
+
+                    <div class="event-page-title-row">
+                        <h2>Festival de música</h2>
+                        <span class="event-page-status status-safe">Seguro</span>
+                    </div>
+
+                    <p class="event-page-date">
+                        📅 Dom, 27 Abr · 15:00
+                    </p>
+
+                    <p class="event-page-location">
+                        📍 São Paulo, SP
+                    </p>
+
+                    <div class="event-page-weather">
+                        <span>☀️ 24°C</span>
+                        <span>🌧️ 15% chuva</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="event-page-compatibility safe-text">
+                🌤️ Alta — clima ameno ideal
+            </div>
+
+        </article>
+
+    </section>
+
+
+    <!-- FORMULÁRIO ESTÁTICO DE NOVO EVENTO -->
+    <section class="new-event-section" id="novo-evento">
+
+        <article class="new-event-card">
+
+            <div class="new-event-header">
+                <h2>Novo Evento</h2>
+                <p>Adicione um evento para acompanhar a previsão do tempo.</p>
+            </div>
+
+            <form class="new-event-form">
+
+                <div class="form-group">
+                    <label for="event-name">Nome do evento</label>
+                    <input type="text" id="event-name" placeholder="Ex: Trilha na serra">
+                </div>
+
+                <div class="form-group">
+                    <label for="event-date">Data</label>
+                    <input type="date" id="event-date">
+                </div>
+
+                <div class="form-group">
+                    <label for="event-location">Localização</label>
+                    <input type="text" id="event-location" placeholder="Buscar cidade ou país...">
+                </div>
+
+                <div class="form-group">
+                    <label>Condição climática desejada</label>
+
+                    <div class="weather-preference-grid">
+
+                        <button type="button" class="weather-preference-card active">
+                            <span>☀️</span>
+                            <div>
+                                <strong>Sol</strong>
+                                <small>Tempo aberto</small>
+                            </div>
+                        </button>
+
+                        <button type="button" class="weather-preference-card">
+                            <span>🌧️</span>
+                            <div>
+                                <strong>Chuva</strong>
+                                <small>Evento com chuva</small>
+                            </div>
+                        </button>
+
+                        <button type="button" class="weather-preference-card">
+                            <span>🌤️</span>
+                            <div>
+                                <strong>Ameno</strong>
+                                <small>Clima agradável</small>
+                            </div>
+                        </button>
+
+                        <button type="button" class="weather-preference-card">
+                            <span>❄️</span>
+                            <div>
+                                <strong>Frio</strong>
+                                <small>Baixa temperatura</small>
+                            </div>
+                        </button>
+
+                    </div>
+                </div>
+
+                <button type="button" class="submit-event-button">
+                    Adicionar Evento
+                </button>
+
+            </form>
+
+        </article>
+
+    </section>
+
 </main>
 
 {% endblock %}

@@ -5,40 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendário Climático</title>
 
-    {% load static %}
+<!DOCTYPE html>
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário Climático</title>
+
+
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
 </head>
 <body>
 
-    <div class="calendario-container">
+<div class="calendario-container">
 
-        <h1>📅 Calendário Climático</h1>
+    <h1>📅 Visão Mensal</h1>
 
-        <p>
-            Veja a previsão do clima da semana.
-        </p>
+    <p>
+        Veja a previsão climática do mês.
+    </p>
 
-        <div class="dias">
+    <div class="mes-selector">
+        <button>◀</button>
+        <span>Junho 2026</span>
+        <button>▶</button>
+    </div>
 
-            <div class="dia-card">
-                <h3>Segunda</h3>
-                <p>☀️ 26°C</p>
-            </div>
+    <div class="dias">
 
-            <div class="dia-card">
-                <h3>Terça</h3>
-                <p>🌧️ 21°C</p>
-            </div>
+        <div class="dia-card destaque">
+            <h3>1</h3>
+            <p>☀️</p>
+            <small>26°C</small>
+        </div>
 
-            <div class="dia-card">
-                <h3>Quarta</h3>
-                <p>⛅ 24°C</p>
-            </div>
+        <div class="dia-card">
+            <h3>2</h3>
+            <p>☀️</p>
+            <small>24°C</small>
+        </div>
 
+        <div class="dia-card">
+            <h3>3</h3>
+            <p>⛅</p>
+            <small>22°C</small>
+        </div>
+
+        <div class="dia-card">
+            <h3>4</h3>
+            <p>🌧️</p>
+            <small>19°C</small>
+        </div>
+
+        <div class="dia-card">
+            <h3>5</h3>
+            <p>🌧️</p>
+            <small>18°C</small>
+        </div>
+
+        <div class="dia-card">
+            <h3>6</h3>
+            <p>☀️</p>
+            <small>27°C</small>
         </div>
 
     </div>
+
+    <div class="legenda">
+        <span class="tempo-bom">🟢 Tempo bom</span>
+        <span class="atencao">🟡 Atenção</span>
+        <span class="risco">🔴 Risco</span>
+    </div>
+
+</div>
+
 
 </body>
 </html>
