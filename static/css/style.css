@@ -1600,3 +1600,31 @@ a {
     border: none;
     cursor: pointer;
 }
+
+/* ALERTAS */
+
+.alertas-container{
+    padding:40px;
+}
+
+.alerta-card{
+    background:white;
+    padding:20px;
+    margin-bottom:15px;
+    border-radius:15px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* CONFIG */
+
+.config-container{
+    padding:40px;
+}
+
+.config-card{
+    background:white;
+    padding:20px;
+    margin-bottom:15px;
+    border-radius:15px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
