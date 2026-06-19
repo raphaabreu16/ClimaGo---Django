@@ -164,7 +164,6 @@ def logout_view(request):
 LOGIN_URL='login'
 
 LOGIN_REDIRECT_URL='home'
-=======
 
 def alertas(request):
     return render(request, 'core/alertas.html')
