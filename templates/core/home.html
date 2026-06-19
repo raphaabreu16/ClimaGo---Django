@@ -146,15 +146,11 @@
 
         <div class="forecast-list">
 
-            {% include 'includes/forecast_card.html' with day='Hoje' icon='☀️' max_temp='28' min_temp='20' rain_chance='5' is_active=True %}
-            {% include 'includes/forecast_card.html' with day='Seg' icon='⛅' max_temp='26' min_temp='19' rain_chance='20' %}
-            {% include 'includes/forecast_card.html' with day='Ter' icon='🌧️' max_temp='24' min_temp='18' rain_chance='70' %}
-            {% include 'includes/forecast_card.html' with day='Qua' icon='🌦️' max_temp='23' min_temp='17' rain_chance='55' %}
-            {% include 'includes/forecast_card.html' with day='Qui' icon='☀️' max_temp='27' min_temp='19' rain_chance='10' %}
-            {% include 'includes/forecast_card.html' with day='Sex' icon='☀️' max_temp='29' min_temp='21' rain_chance='5' %}
-            {% include 'includes/forecast_card.html' with day='Sáb' icon='☁️' max_temp='25' min_temp='18' rain_chance='35' %}
+    {% for day in weather.forecast %}
+        {% include 'includes/forecast_card.html' with day=day.date icon='☀️' max_temp=day.max_temp min_temp=day.min_temp rain_chance=day.rain_chance %}
+    {% endfor %}
 
-        </div>
+</div>
 
     </section>
 
