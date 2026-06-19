@@ -144,15 +144,17 @@
     <!-- PREVISÃO 7 DIAS -->
     <section class="forecast-section">
 
-        {% include 'includes/section_header.html' with title='Próximos 7 dias' link_url='#' link_text='Ver 30 dias →' %}
+        {% include 'includes/section_header.html' with title='Próximos 7 dias' link_url='#' link_text='Ver previsão →' %}
 
         <div class="forecast-list">
 
-    {% for day in weather.forecast %}
-        {% include 'includes/forecast_card.html' with day=day.date icon='☀️' max_temp=day.max_temp min_temp=day.min_temp rain_chance=day.rain_chance %}
-    {% endfor %}
+            {% for day in weather.forecast %}
+                {% include 'includes/forecast_card.html' with day=day.date icon='☀️' max_temp=day.max_temp min_temp=day.min_temp rain_chance=day.rain_chance %}
+            {% empty %}
+                <p>Não foi possível carregar a previsão.</p>
+            {% endfor %}
 
-</div>
+        </div>
 
     </section>
 
@@ -336,6 +338,7 @@
 
     </section>
 
+
     <!-- SUGESTÃO INTELIGENTE -->
     <section class="smart-suggestion-section">
 
@@ -355,16 +358,14 @@
 
     </section>
 
-</main>
+    {% else %}
 
-{% else %}
+    <section class="weather-error">
+        <h2>Não foi possível carregar o clima.</h2>
+        <p>Verifique o nome da cidade ou tente novamente.</p>
+    </section>
 
-<section class="weather-error">
-    <h2>Não foi possível carregar o clima.</h2>
-    <p>Verifique o nome da cidade ou tente novamente.</p>
-</section>
-
-{% endif %}
+    {% endif %}
 
 </main>
 
