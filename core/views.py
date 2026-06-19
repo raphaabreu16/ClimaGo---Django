@@ -8,19 +8,25 @@ from .services.weather_api import get_weather
 
 
 def home(request):
+    city = request.GET.get("city", "Rio de Janeiro")
+
     try:
-        weather = get_weather()
+        weather = get_weather(city)
     except Exception:
         weather = {
-            "city": "Rio de Janeiro",
+            "city": city,
             "temperature": "--",
             "humidity": "--",
             "wind_speed": "--",
             "weather_code": None,
+            "forecast": [],
         }
+
     context = {
-        "weather": weather
+        "weather": weather,
+        "city_search": city,
     }
+
     return render(request, "core/home.html", context)
 
 
