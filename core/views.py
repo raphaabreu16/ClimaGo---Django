@@ -3,9 +3,25 @@ from django.contrib.auth.models import User
 from django.contrib.auth import (authenticate,login,logout)
 from .forms import PesquisaClimaForm, CadastroForm, LoginForm
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from .services.weather_api import get_weather
+
 
 def home(request):
-    return render(request, 'core/home.html')
+    try:
+        weather = get_weather()
+    except Exception:
+        weather = {
+            "city": "Rio de Janeiro",
+            "temperature": "--",
+            "humidity": "--",
+            "wind_speed": "--",
+            "weather_code": None,
+        }
+    context = {
+        "weather": weather
+    }
+    return render(request, "core/home.html", context)
 
 
 def previsao(request):
