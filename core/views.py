@@ -56,7 +56,7 @@ def pesquisar_clima(request):
             'cidade': cidade
         }
     )
-<<<<<<< HEAD
+    
 def cadastro(request):
 
     erro = None
