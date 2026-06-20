@@ -86,3 +86,97 @@ def format_forecast(daily):
         )
 
     return forecast
+    
+def calculate_climago_score(
+    temperature,
+    humidity,
+    wind_speed,
+    rain_chance,
+    uv_index=None,
+    temp_max=None,
+    temp_min=None,
+    weather_code=None,
+):
+    score = 100
+
+    # 1. Temperatura
+    # Faixa confortável: 18°C a 30°C
+    if temperature >= 38:
+        score -= 25
+    elif temperature >= 34:
+        score -= 18
+    elif temperature >= 31:
+        score -= 10
+    elif temperature < 10:
+        score -= 20
+    elif temperature < 15:
+        score -= 12
+    elif temperature < 18:
+        score -= 5
+
+    # 2. Umidade
+    # Umidade muito alta deixa o clima abafado; muito baixa pode ser desconfortável
+    if humidity >= 90:
+        score -= 15
+    elif humidity >= 80:
+        score -= 10
+    elif humidity >= 70:
+        score -= 5
+    elif humidity <= 25:
+        score -= 8
+
+    # 3. Vento
+    if wind_speed >= 45:
+        score -= 25
+    elif wind_speed >= 35:
+        score -= 18
+    elif wind_speed >= 25:
+        score -= 10
+    elif wind_speed >= 18:
+        score -= 5
+
+    # 4. Chance de chuva
+    if rain_chance >= 80:
+        score -= 30
+    elif rain_chance >= 60:
+        score -= 22
+    elif rain_chance >= 40:
+        score -= 15
+    elif rain_chance >= 20:
+        score -= 7
+
+    # 5. Índice UV
+    # Só aplica se a API estiver trazendo esse dado
+    if uv_index is not None:
+        if uv_index >= 11:
+            score -= 15
+        elif uv_index >= 8:
+            score -= 10
+        elif uv_index >= 6:
+            score -= 5
+
+    # 6. Amplitude térmica
+    # Diferença muito grande entre máxima e mínima pode indicar instabilidade
+    if temp_max is not None and temp_min is not None:
+        thermal_range = temp_max - temp_min
+
+        if thermal_range >= 15:
+            score -= 10
+        elif thermal_range >= 10:
+            score -= 5
+
+    # 7. Código climático
+    # Penaliza chuva forte, tempestade, neblina etc.
+    if weather_code is not None:
+        if weather_code in [95, 96, 99]:
+            score -= 25
+        elif weather_code in [65, 66, 67, 80, 81, 82]:
+            score -= 20
+        elif weather_code in [61, 63]:
+            score -= 12
+        elif weather_code in [45, 48]:
+            score -= 8
+        elif weather_code in [0, 1]:
+            score += 3
+
+    return max(min(round(score), 100), 0)
