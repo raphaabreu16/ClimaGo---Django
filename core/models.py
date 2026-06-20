@@ -1,13 +1,21 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
-class Usuario(models.Model):
-    nome = models.CharField(max_length=150)
-    email = models.EmailField(unique=True)
-    fuso_horario = models.CharField(max_length=100, default='America/Sao_Paulo')
+class Perfil(models.Model):
+
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    fuso_horario = models.CharField(
+        max_length=100,
+        default='America/Sao_Paulo'
+    )
 
     def __str__(self):
-        return self.nome
+        return self.user.username
 
 
 class Localizacao(models.Model):
@@ -159,4 +167,4 @@ class ConfiguracaoAlerta(models.Model):
     notificacao_push_ativa = models.BooleanField(default=True)
 
     def __str__(self):
-        return f'Configuração de {self.usuario.nome}'
+        return f'Configuração de {self.user.nome}'
