@@ -83,6 +83,7 @@ score = calculate_climago_score(
         "wind_speed": round(current["wind_speed_10m"]),
         "weather_code": current["weather_code"],
         "forecast": format_forecast(daily),
+        "score": score,
     }
 
 
