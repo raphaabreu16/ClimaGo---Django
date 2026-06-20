@@ -41,6 +41,7 @@ def get_weather(city_name="Rio de Janeiro"):
             "wind_speed": "--",
             "weather_code": None,
             "forecast": [],
+            
         }
 
     forecast_url = "https://api.open-meteo.com/v1/forecast"
@@ -60,6 +61,19 @@ def get_weather(city_name="Rio de Janeiro"):
     data = response.json()
     current = data["current"]
     daily = data["daily"]
+    today_rain_chance = daily["precipitation_probability_max"][0]
+today_max_temp = daily["temperature_2m_max"][0]
+today_min_temp = daily["temperature_2m_min"][0]
+
+score = calculate_climago_score(
+    temperature=current["temperature_2m"],
+    humidity=current["relative_humidity_2m"],
+    wind_speed=current["wind_speed_10m"],
+    rain_chance=today_rain_chance,
+    temp_max=today_max_temp,
+    temp_min=today_min_temp,
+    weather_code=current["weather_code"],
+)
 
     return {
         "city": location["city"],
