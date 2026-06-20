@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (
-    Usuario,
+    Perfil,
     Localizacao,
     EventoCalendario,
     PrevisaoClimatica,
@@ -9,7 +9,7 @@ from .models import (
 )
 
 
-admin.site.register(Usuario)
+admin.site.register(Perfil)
 admin.site.register(Localizacao)
 admin.site.register(EventoCalendario)
 admin.site.register(PrevisaoClimatica)
