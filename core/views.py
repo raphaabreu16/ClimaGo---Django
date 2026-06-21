@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import (authenticate,login,logout)
-from .forms import PesquisaClimaForm, CadastroForm, LoginForm
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from .forms import (PesquisaClimaForm,CadastroForm,LoginForm)
 from .services.weather_api import get_weather
 
 
@@ -167,9 +166,7 @@ def logout_view(request):
     return redirect(
         'home'
     )
-LOGIN_URL='login'
 
-LOGIN_REDIRECT_URL='home'
 
 def alertas(request):
     return render(request, 'core/alertas.html')
