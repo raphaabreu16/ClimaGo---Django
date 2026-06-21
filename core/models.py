@@ -20,7 +20,7 @@ class Perfil(models.Model):
 
 class Localizacao(models.Model):
     usuario = models.ForeignKey(
-        Usuario,
+        Perfil,
         on_delete=models.CASCADE,
         related_name='localizacoes'
     )
@@ -53,7 +53,7 @@ class EventoCalendario(models.Model):
     ]
 
     usuario = models.ForeignKey(
-        Usuario,
+        Perfil,
         on_delete=models.CASCADE,
         related_name='eventos'
     )
@@ -151,7 +151,7 @@ class Alerta(models.Model):
 
 class ConfiguracaoAlerta(models.Model):
     usuario = models.OneToOneField(
-        Usuario,
+        Perfil,
         on_delete=models.CASCADE,
         related_name='configuracao_alerta'
     )
@@ -167,4 +167,4 @@ class ConfiguracaoAlerta(models.Model):
     notificacao_push_ativa = models.BooleanField(default=True)
 
     def __str__(self):
-        return f'Configuração de {self.user.nome}'
+        return f'Configuração de {self.user.username}'
