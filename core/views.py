@@ -74,7 +74,7 @@ def cadastro(request):
 
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
+            password = form.cleaned_data['password1']
 
             if User.objects.filter(username=username).exists():
 
@@ -96,7 +96,7 @@ def cadastro(request):
 
     return render(
         request,
-        'cadastro.html',
+        'core/cadastro.html',
         {
             'form': form,
             'erro': erro
@@ -153,7 +153,7 @@ def login_view(request):
 
     return render(
         request,
-        'login.html',
+        'core/login.html',
         {
             'form': form,
             'erro': erro
@@ -167,10 +167,11 @@ def logout_view(request):
         'home'
     )
 
-
+@login_required
 def alertas(request):
     return render(request, 'core/alertas.html')
-
+    
+@login_required
 def config(request):
     return render(request, 'core/config.html')
 
