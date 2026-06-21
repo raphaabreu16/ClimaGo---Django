@@ -1,61 +1,54 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+
 
 class PesquisaClimaForm(forms.Form):
 
     cidade = forms.CharField(
-        label="Cidade",
-        max_length=100,
-        required=True,
-        widget=forms.TextInput(attrs={
-            "placeholder": "Ex: Rio de Janeiro",
-            "class": "form-control",
-            "autocomplete": "off"
-        })
+
+        label='Cidade',
+
+        max_length=100
+
     )
 
-    estado = forms.CharField(
-        label="Estado (opcional)",
-        max_length=100,
-        required=False,
-        widget=forms.TextInput(attrs={
-            "placeholder": "Ex: RJ",
-            "class": "form-control"
-        })
-    )
 
-    pais = forms.CharField(
-        label="País",
-        max_length=100,
-        required=False,
-        initial="Brasil",
-        widget=forms.TextInput(attrs={
-            "placeholder": "Ex: Brasil",
-            "class": "form-control"
-        })
-    )
-
-class CadastroForm(forms.Form):
-
-    username = forms.CharField(
-        label='Usuário',
-        max_length=150
-    )
+class CadastroForm(UserCreationForm):
 
     email = forms.EmailField()
 
-    password = forms.CharField(
-        label='Senha',
-        widget=forms.PasswordInput()
-    )
-    
+    class Meta:
+
+        model = User
+
+        fields = (
+
+            'username',
+
+            'email',
+
+            'password1',
+
+            'password2'
+
+        )
+
+
 class LoginForm(forms.Form):
 
     username = forms.CharField(
-        label='Usuário'
+
+        label='Usuário',
+
+        max_length=150
+
     )
 
     password = forms.CharField(
+
         label='Senha',
-        widget=forms.PasswordInput()
-    )
+
+        widget=forms.PasswordInput
+
+    ) 
