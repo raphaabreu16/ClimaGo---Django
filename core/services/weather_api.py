@@ -1,5 +1,5 @@
 import requests
-
+from datetime import datetime
 
 def get_coordinates(city_name):
     geocoding_url = "https://geocoding-api.open-meteo.com/v1/search"
