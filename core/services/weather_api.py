@@ -41,7 +41,7 @@ def get_weather(city_name="Rio de Janeiro"):
             "wind_speed": "--",
             "weather_code": None,
             "forecast": [],
-            
+            "score": "--",
         }
 
     forecast_url = "https://api.open-meteo.com/v1/forecast"
@@ -59,21 +59,23 @@ def get_weather(city_name="Rio de Janeiro"):
     response.raise_for_status()
 
     data = response.json()
+
     current = data["current"]
     daily = data["daily"]
-    today_rain_chance = daily["precipitation_probability_max"][0]
-today_max_temp = daily["temperature_2m_max"][0]
-today_min_temp = daily["temperature_2m_min"][0]
 
-score = calculate_climago_score(
-    temperature=current["temperature_2m"],
-    humidity=current["relative_humidity_2m"],
-    wind_speed=current["wind_speed_10m"],
-    rain_chance=today_rain_chance,
-    temp_max=today_max_temp,
-    temp_min=today_min_temp,
-    weather_code=current["weather_code"],
-)
+    today_rain_chance = daily["precipitation_probability_max"][0]
+    today_max_temp = daily["temperature_2m_max"][0]
+    today_min_temp = daily["temperature_2m_min"][0]
+
+    score = calculate_climago_score(
+        temperature=current["temperature_2m"],
+        humidity=current["relative_humidity_2m"],
+        wind_speed=current["wind_speed_10m"],
+        rain_chance=today_rain_chance,
+        temp_max=today_max_temp,
+        temp_min=today_min_temp,
+        weather_code=current["weather_code"],
+    )
 
     return {
         "city": location["city"],
@@ -101,7 +103,8 @@ def format_forecast(daily):
         )
 
     return forecast
-    
+
+
 def calculate_climago_score(
     temperature,
     humidity,
@@ -130,7 +133,6 @@ def calculate_climago_score(
         score -= 5
 
     # 2. Umidade
-    # Umidade muito alta deixa o clima abafado; muito baixa pode ser desconfortável
     if humidity >= 90:
         score -= 15
     elif humidity >= 80:
@@ -161,7 +163,6 @@ def calculate_climago_score(
         score -= 7
 
     # 5. Índice UV
-    # Só aplica se a API estiver trazendo esse dado
     if uv_index is not None:
         if uv_index >= 11:
             score -= 15
@@ -171,7 +172,6 @@ def calculate_climago_score(
             score -= 5
 
     # 6. Amplitude térmica
-    # Diferença muito grande entre máxima e mínima pode indicar instabilidade
     if temp_max is not None and temp_min is not None:
         thermal_range = temp_max - temp_min
 
@@ -181,7 +181,6 @@ def calculate_climago_score(
             score -= 5
 
     # 7. Código climático
-    # Penaliza chuva forte, tempestade, neblina etc.
     if weather_code is not None:
         if weather_code in [95, 96, 99]:
             score -= 25
