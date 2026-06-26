@@ -41,7 +41,7 @@
 
                 <div class="confidence-badge">
                     <span class="confidence-label">Confiança</span>
-                    <strong class="confidence-value">92%</strong>
+                    <strong class="confidence-value">{{ weather.confidence }}%</strong>
                 </div>
 
             </div>
@@ -49,7 +49,7 @@
             <div class="current-weather">
 
                 <div class="weather-icon-main">
-                    ☀️
+                    {{ weather.icon }}
                 </div>
 
                 <div class="weather-info">
@@ -58,7 +58,7 @@
                     </h1>
 
                     <p class="weather-description">
-                        Dados climáticos em tempo real
+                        {{ weather.description }} · Máx {{ weather.today.max_temp }}° / Mín {{ weather.today.min_temp }}°
                     </p>
                 </div>
 
@@ -70,7 +70,7 @@
 
                 {% include 'includes/weather_detail_item.html' with icon='💨' label='Vento' value=weather.wind_speed unit='km/h' %}
 
-                {% include 'includes/weather_detail_item.html' with icon='👁️' label='UV' value='Alto' %}
+                {% include 'includes/weather_detail_item.html' with icon='👁️' label='UV' value=weather.uv_display %}
 
             </div>
 
@@ -95,11 +95,15 @@
 
             <div class="score-content">
                 <strong class="score-number">{{ weather.score }}</strong>
-                <span class="score-status">Favorável</span>
+                <span class="score-status">{{ weather.score_status }}</span>
             </div>
 
             <div class="score-bar">
-                <div class="score-bar-fill"></div>
+                {% if weather.score == "--" %}
+                    <div class="score-bar-fill" style="width: 0%;"></div>
+                {% else %}
+                    <div class="score-bar-fill" style="width: {{ weather.score }}%;"></div>
+                {% endif %}
             </div>
 
         </article>
@@ -110,9 +114,9 @@
     <!-- CARDS DE JANELA IDEAL -->
     <section class="smart-window-section">
 
-        {% include 'includes/smart_card.html' with icon='⚡' title='Melhor janela de 5 dias' text='Qui a Seg — clima estável, baixa chance de chuva.' card_class='safe-card' %}
+        {% include 'includes/smart_card.html' with icon='⚡' title=weather.best_window.title text=weather.best_window.text card_class='safe-card' %}
 
-        {% include 'includes/smart_card.html' with icon='📅' title='Menor risco climático' text='Sexta-feira — 29°C, 5% de chuva, ideal para ar livre.' card_class='primary-card' %}
+        {% include 'includes/smart_card.html' with icon='📅' title=weather.low_risk_day.title text=weather.low_risk_day.text card_class='primary-card' %}
 
     </section>
 
@@ -120,17 +124,17 @@
     <!-- ALERTA PRINCIPAL -->
     <section class="main-alert-section">
 
-        <article class="alert-card danger-alert">
+        <article class="alert-card {{ weather.main_alert.card_class }}">
 
             <div class="alert-icon">
-                ⚠️
+                {{ weather.main_alert.icon }}
             </div>
 
             <div class="alert-content">
-                <h3 class="alert-title">Alerta de chuva forte</h3>
+                <h3 class="alert-title">{{ weather.main_alert.title }}</h3>
 
                 <p class="alert-text">
-                    Terça-feira — 70% de probabilidade. Seu evento pode ser afetado.
+                    {{ weather.main_alert.text }}
                 </p>
             </div>
 
@@ -149,7 +153,7 @@
         <div class="forecast-list">
 
             {% for day in weather.forecast %}
-                {% include 'includes/forecast_card.html' with day=day.date icon='☀️' max_temp=day.max_temp min_temp=day.min_temp rain_chance=day.rain_chance %}
+                {% include 'includes/forecast_card.html' with day=day.day_label icon=day.icon max_temp=day.max_temp min_temp=day.min_temp rain_chance=day.rain_chance %}
             {% empty %}
                 <p>Não foi possível carregar a previsão.</p>
             {% endfor %}
@@ -194,10 +198,13 @@
 
                     <div class="environment-info">
                         <h3 class="environment-title">Qualidade do Ar</h3>
-                        <span class="environment-status status-good">Boa</span>
+
+                        <span class="environment-status {{ weather.air_quality.status_class }}">
+                            {{ weather.air_quality.status }}
+                        </span>
                     </div>
 
-                    <strong class="environment-value">35</strong>
+                    <strong class="environment-value">{{ weather.air_quality.aqi }}</strong>
 
                 </div>
 
@@ -226,11 +233,11 @@
 
                     <div class="environment-info">
                         <h3 class="environment-title">Pressão Atmosférica</h3>
-                        <span class="environment-status">Normal</span>
+                        <span class="environment-status">{{ weather.pressure.status }}</span>
                     </div>
 
                     <strong class="environment-value">
-                        1013 <span class="environment-unit">hPa</span>
+                        {{ weather.pressure.value }} <span class="environment-unit">hPa</span>
                     </strong>
 
                 </div>
@@ -264,25 +271,17 @@
 
                 <div class="disease-list">
 
-                    <div class="disease-item">
-                        <span class="disease-name">Dengue</span>
-                        <span class="disease-risk risk-high">Alto</span>
-                    </div>
-
-                    <div class="disease-item">
-                        <span class="disease-name">Gripe</span>
-                        <span class="disease-risk risk-moderate">Moderado</span>
-                    </div>
-
-                    <div class="disease-item">
-                        <span class="disease-name">Alergia respiratória</span>
-                        <span class="disease-risk risk-moderate">Moderado</span>
-                    </div>
+                    {% for disease in weather.disease_risks %}
+                        <div class="disease-item">
+                            <span class="disease-name">{{ disease.name }}</span>
+                            <span class="disease-risk {{ disease.class }}">{{ disease.status }}</span>
+                        </div>
+                    {% endfor %}
 
                 </div>
 
                 <p class="environment-note">
-                    Baseado em temperatura, umidade e dados epidemiológicos da região.
+                    Baseado em temperatura, umidade, chuva e qualidade do ar da região.
                 </p>
 
             </article>
@@ -301,38 +300,18 @@
 
         <div class="recommendations-list">
 
-            <article class="recommendation-card">
-                <div class="recommendation-icon">🚶</div>
+            {% for recommendation in weather.recommendations %}
+                <article class="recommendation-card">
+                    <div class="recommendation-icon">{{ recommendation.icon }}</div>
 
-                <div class="recommendation-content">
-                    <h3 class="recommendation-title">Atividades ao ar livre</h3>
-                    <p class="recommendation-text">
-                        Bom dia para caminhadas, mas evite horários de sol forte.
-                    </p>
-                </div>
-            </article>
-
-            <article class="recommendation-card">
-                <div class="recommendation-icon">💧</div>
-
-                <div class="recommendation-content">
-                    <h3 class="recommendation-title">Hidratação</h3>
-                    <p class="recommendation-text">
-                        Temperatura elevada. Mantenha garrafa de água por perto.
-                    </p>
-                </div>
-            </article>
-
-            <article class="recommendation-card">
-                <div class="recommendation-icon">🧴</div>
-
-                <div class="recommendation-content">
-                    <h3 class="recommendation-title">Proteção solar</h3>
-                    <p class="recommendation-text">
-                        Índice UV alto. Use protetor solar se sair durante o dia.
-                    </p>
-                </div>
-            </article>
+                    <div class="recommendation-content">
+                        <h3 class="recommendation-title">{{ recommendation.title }}</h3>
+                        <p class="recommendation-text">
+                            {{ recommendation.text }}
+                        </p>
+                    </div>
+                </article>
+            {% endfor %}
 
         </div>
 
@@ -350,8 +329,7 @@
             </div>
 
             <p class="suggestion-text">
-                Considere remarcar sua trilha de terça para quinta-feira. A previsão indica
-                tempo firme com 29°C e apenas 10% de chance de chuva.
+                {{ weather.suggestion }}
             </p>
 
         </article>
