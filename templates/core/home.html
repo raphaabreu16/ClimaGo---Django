@@ -6,18 +6,52 @@
 
 <main class="dashboard-page">
 
-    <form method="GET" class="search-weather-form">
-        <input
-            type="text"
-            name="city"
-            placeholder="Digite uma cidade"
-            value="{{ city_search }}"
-        >
+    <div class="weather-search-area">
 
-        <button type="submit">
+    <form method="GET" class="search-weather-form weather-search-widget" autocomplete="off">
+
+        <div class="weather-search-box">
+            <span class="weather-search-icon">📍</span>
+
+            <input
+                type="text"
+                name="city"
+                list="city-suggestions"
+                placeholder="Buscar cidade"
+                value="{{ city_search }}"
+                autocomplete="off"
+            >
+
+            <datalist id="city-suggestions">
+                <option value="Rio de Janeiro">
+                <option value="São Paulo">
+                <option value="Curitiba">
+                <option value="Belo Horizonte">
+                <option value="Salvador">
+                <option value="Brasília">
+                <option value="Porto Alegre">
+                <option value="Recife">
+                <option value="Fortaleza">
+                <option value="Florianópolis">
+            </datalist>
+        </div>
+
+        <button type="submit" class="weather-search-submit">
             Buscar clima
         </button>
+
     </form>
+
+    <div class="quick-city-suggestions">
+        <span>Sugestões:</span>
+
+        <a href="?city=Rio de Janeiro">Rio</a>
+        <a href="?city=São Paulo">São Paulo</a>
+        <a href="?city=Curitiba">Curitiba</a>
+        <a href="?city=Salvador">Salvador</a>
+    </div>
+
+</div>
 
     {% if weather %}
 
