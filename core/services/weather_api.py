@@ -63,6 +63,8 @@ def get_weather(city_name="Rio de Janeiro"):
     pressure = current.get("surface_pressure")
 
     today_rain_chance = get_list_value(daily, "precipitation_probability_max", 0, 0)
+    if today_rain_chance is None:
+        today_rain_chance = 0
     today_max_temp = get_list_value(daily, "temperature_2m_max", 0)
     today_min_temp = get_list_value(daily, "temperature_2m_min", 0)
     today_uv_index = get_list_value(daily, "uv_index_max", 0)
@@ -231,6 +233,8 @@ def format_forecast(daily):
         max_temp = get_list_value(daily, "temperature_2m_max", index)
         min_temp = get_list_value(daily, "temperature_2m_min", index)
         rain_chance = get_list_value(daily, "precipitation_probability_max", index, 0)
+        if rain_chance is None:
+            rain_chance = 0
         uv_index = get_list_value(daily, "uv_index_max", index)
 
         forecast.append(
