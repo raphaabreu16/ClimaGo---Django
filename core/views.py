@@ -22,13 +22,15 @@ def home(request):
             "forecast": [],
         }
 
+    eventos = EventoCalendario.objects.order_by("data_inicio")
+
     context = {
         "weather": weather,
         "city_search": city,
+        "eventos": eventos,
     }
 
     return render(request, "core/home.html", context)
-
 
 def previsao(request):
     return render(request, 'core/previsao.html')
