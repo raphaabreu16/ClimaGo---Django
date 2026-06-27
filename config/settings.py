@@ -130,3 +130,9 @@ STATICFILES_DIRS = [
 LOGIN_URL='login'
 
 LOGIN_REDIRECT_URL='home'
+import os
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.app.github.dev',
+    'https://*.github.dev',
+]
