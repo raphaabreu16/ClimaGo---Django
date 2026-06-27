@@ -1,10 +1,10 @@
-from .models import EventoCalendario
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import (authenticate,login,logout)
 from django.contrib.auth.decorators import login_required
 from .forms import (PesquisaClimaForm,CadastroForm,LoginForm)
 from .services.weather_api import get_weather
+from .models import EventoCalendario
 
 
 def home(request):
@@ -22,13 +22,15 @@ def home(request):
             "forecast": [],
         }
 
+    eventos = EventoCalendario.objects.order_by("data_inicio")
+
     context = {
         "weather": weather,
         "city_search": city,
+        "eventos": eventos,
     }
 
     return render(request, "core/home.html", context)
-
 
 def previsao(request):
     city = request.GET.get("city", "Rio de Janeiro")
