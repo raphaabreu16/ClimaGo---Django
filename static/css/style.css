@@ -3835,3 +3835,35 @@ body {
         padding-left: 0;
     }
 }
+
+.lista-eventos{
+
+    margin-top:40px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+.evento-card{
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+
+}
+
+.evento-card h3{
+
+    margin-bottom:8px;
+
+    color:#2563eb;
+
+}
