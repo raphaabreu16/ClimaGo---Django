@@ -70,6 +70,9 @@
                     <div class="location-text">
                         <span class="location-label">Localização atual</span>
                         <strong class="location-name">{{ weather.city }}</strong>
+                        <p class="weather-update">
+                            Última atualização: {{ weather.updated_at }}
+                        </p>
                     </div>
                 </div>
 
@@ -93,6 +96,9 @@
 
                     <p class="weather-description">
                         {{ weather.description }} · Máx {{ weather.today.max_temp }}° / Mín {{ weather.today.min_temp }}°
+                    </p>
+                    <p class="weather-city">
+                        Cidade pesquisada: <strong>{{ city_search }}</strong>
                     </p>
                 </div>
 
@@ -182,7 +188,11 @@
     <!-- PREVISÃO 7 DIAS -->
     <section class="forecast-section">
 
-        {% include 'includes/section_header.html' with title='Próximos 7 dias' link_url='#' link_text='Ver previsão →' %}
+        {{% include 'includes/section_header.html' with title='Próximos 7 dias' link_url='/previsao/' link_text='Ver previsão →' %}
+
+        <p class="forecast-count">
+            {{ weather.forecast|length }} dias carregados
+        </p>
 
         <div class="forecast-list">
 
@@ -200,15 +210,32 @@
     <!-- EVENTOS -->
     <section class="events-section">
 
-        {% include 'includes/section_header.html' with title='Seus eventos' link_url='#' link_text='Ver todos →' %}
+        {% include 'includes/section_header.html' with title='Seus eventos' link_url='/eventos/' link_text='Ver todos →' %}
 
-        <div class="events-list">
+       <div class="events-list">
 
-            {% include 'includes/event_card.html' with icon='☂️' title='Trilha Serra da Mantiqueira' description='Ter, 8 Abr · 70% chance de chuva' status='danger' status_label='Risco' %}
+    {% if eventos %}
 
-            {% include 'includes/event_card.html' with icon='☀️' title='Churrasco no sítio' description='Sex, 11 Abr · Tempo aberto, 29°C' status='safe' status_label='Seguro' %}
+        {% for evento in eventos %}
 
-        </div>
+            {% include 'includes/event_card.html'
+                with
+                icon='📅'
+                title=evento.titulo
+                description=evento.data_inicio
+                status='safe'
+                status_label='Evento'
+            %}
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>Nenhum evento cadastrado.</p>
+
+    {% endif %}
+
+</div>
 
     </section>
 
