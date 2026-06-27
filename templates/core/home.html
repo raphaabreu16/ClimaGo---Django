@@ -106,6 +106,18 @@
 
             <div class="weather-details">
 
+                <div class="sun-times">
+
+                    <div>
+                        🌅 {{ weather.sunrise }}
+                    </div>
+
+                    <div>
+                        🌇 {{ weather.sunset }}
+                    </div>
+
+            </div>
+
                 {% include 'includes/weather_detail_item.html' with icon='💧' label='Umidade' value=weather.humidity unit='%' %}
 
                 {% include 'includes/weather_detail_item.html' with icon='💨' label='Vento' value=weather.wind_speed unit='km/h' %}
