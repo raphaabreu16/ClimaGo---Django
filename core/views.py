@@ -1,3 +1,4 @@
+from .models import EventoCalendario
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import (authenticate,login,logout)
@@ -34,7 +35,16 @@ def previsao(request):
 
 @login_required
 def calendario(request):
-    return render(request, 'core/calendario.html')
+
+    eventos = EventoCalendario.objects.order_by("data_inicio")
+
+    return render(
+        request,
+        "core/calendario.html",
+        {
+            "eventos": eventos
+        }
+    )
 
 @login_required
 def eventos(request):
