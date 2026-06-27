@@ -82,6 +82,34 @@
         <span class="risco">🔴 Risco</span>
     </div>
 
+<h2>Eventos do mês</h2>
+
+{% if eventos %}
+
+<div class="lista-eventos">
+
+    {% for evento in eventos %}
+
+    <div class="evento-card">
+
+        <h3>{{ evento.titulo }}</h3>
+
+        <p>{{ evento.data_inicio }}</p>
+
+        <p>{{ evento.local_evento }}</p>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% else %}
+
+<p>Nenhum evento cadastrado.</p>
+
+{% endif %}
+
 </div>
 
 
