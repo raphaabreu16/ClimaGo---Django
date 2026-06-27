@@ -31,7 +31,17 @@ def home(request):
 
 
 def previsao(request):
-    return render(request, 'core/previsao.html')
+    city = request.GET.get("city", "Rio de Janeiro")
+
+    try:
+        weather = get_weather(city)
+    except Exception:
+        weather = None
+
+    return render(request, 'core/previsao.html', {
+        'weather': weather,
+        'city': city,
+    })
 
 @login_required
 def calendario(request):
