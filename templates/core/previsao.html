@@ -9,59 +9,42 @@
     <!-- CABEÇALHO -->
     <section class="forecast-header">
         <h1>Previsão Detalhada</h1>
-
         <div class="forecast-location">
             <span class="forecast-location-icon">📍</span>
-            <span>Rio de Janeiro</span>
+            <span>{{ city }}</span>
         </div>
     </section>
-
 
     <!-- SELETOR DE PERÍODO -->
     <section class="period-selector-section" aria-label="Selecionar período da previsão">
-
         <div class="period-selector">
-            <button type="button" class="period-button">
-                7 dias
-            </button>
-
-            <button type="button" class="period-button active">
-                15 dias
-            </button>
-
-            <button type="button" class="period-button">
-                30 dias
-            </button>
+            <button type="button" class="period-button active" data-days="7">7 dias</button>
+            <button type="button" class="period-button" data-days="15">15 dias</button>
+            <button type="button" class="period-button" data-days="30">30 dias</button>
         </div>
-
     </section>
-
 
     <!-- INSTRUÇÃO DO GRÁFICO -->
     <section class="range-instruction">
-
         <div class="range-instruction-content">
             <span class="range-icon">📅</span>
             <p>Clique em dois dias no gráfico para selecionar um intervalo</p>
         </div>
-
     </section>
 
+    {% if weather and weather.forecast %}
 
     <!-- GRÁFICO DE TEMPERATURA -->
     <section class="temperature-chart-section">
-
         <article class="temperature-chart-card">
 
             <div class="chart-header">
                 <h2>Temperatura</h2>
-
                 <div class="chart-legend">
                     <span class="legend-item">
                         <span class="legend-dot forecast-dot"></span>
                         Previsão
                     </span>
-
                     <span class="legend-item">
                         <span class="legend-dot history-dot"></span>
                         Histórico
@@ -69,222 +52,207 @@
                 </div>
             </div>
 
-            <div class="temperature-chart">
-
-                <button type="button" class="chart-day selected">
-                    <span class="chart-temp-label">28°</span>
+            <div class="temperature-chart" id="temperature-chart">
+                {% for day in weather.forecast %}
+                <button
+                    type="button"
+                    class="chart-day {% if forloop.first %}selected{% endif %}"
+                    data-index="{{ forloop.counter0 }}"
+                    data-temp="{{ day.max_temp }}"
+                    data-min="{{ day.min_temp }}"
+                    data-rain="{{ day.rain_chance }}"
+                    data-wind="{{ weather.wind_speed }}"
+                    data-humidity="{{ weather.humidity }}"
+                    data-icon="{{ day.icon }}"
+                    data-label="{{ day.day_label }}"
+                    data-score="{{ day.risk_score }}"
+                >
+                    <span class="chart-temp-label">{{ day.max_temp }}°</span>
                     <div class="chart-bars">
-                        <span class="forecast-bar" style="height: 70px;"></span>
-                        <span class="historic-bar" style="height: 66px;"></span>
+                        {% with bar_height=day.max_temp|add:"-10" %}
+                        <span class="forecast-bar" style="height: {{ day.max_temp }}px;"></span>
+                        <span class="historic-bar" style="height: {{ day.min_temp }}px;"></span>
+                        {% endwith %}
                     </div>
-                    <span class="chart-day-label">Hoje</span>
+                    <span class="chart-day-label">{{ day.day_label }}</span>
                 </button>
-
-                <button type="button" class="chart-day">
-                    <span class="chart-temp-label">27°</span>
-                    <div class="chart-bars">
-                        <span class="forecast-bar" style="height: 67px;"></span>
-                        <span class="historic-bar" style="height: 64px;"></span>
-                    </div>
-                    <span class="chart-day-label">4 Abr</span>
-                </button>
-
-                <button type="button" class="chart-day">
-                    <span class="chart-temp-label">25°</span>
-                    <div class="chart-bars">
-                        <span class="forecast-bar" style="height: 62px;"></span>
-                        <span class="historic-bar" style="height: 60px;"></span>
-                    </div>
-                    <span class="chart-day-label">5 Abr</span>
-                </button>
-
-                <button type="button" class="chart-day">
-                    <span class="chart-temp-label">24°</span>
-                    <div class="chart-bars">
-                        <span class="forecast-bar" style="height: 58px;"></span>
-                        <span class="historic-bar" style="height: 56px;"></span>
-                    </div>
-                    <span class="chart-day-label">6 Abr</span>
-                </button>
-
-                <button type="button" class="chart-day range-selected">
-                    <span class="chart-temp-label">26°</span>
-                    <div class="chart-bars">
-                        <span class="forecast-bar" style="height: 64px;"></span>
-                        <span class="historic-bar" style="height: 61px;"></span>
-                    </div>
-                    <span class="chart-day-label">7 Abr</span>
-                </button>
-
-                <button type="button" class="chart-day range-selected">
-                    <span class="chart-temp-label">29°</span>
-                    <div class="chart-bars">
-                        <span class="forecast-bar" style="height: 72px;"></span>
-                        <span class="historic-bar" style="height: 68px;"></span>
-                    </div>
-                    <span class="chart-day-label">8 Abr</span>
-                </button>
-
-                <button type="button" class="chart-day range-selected">
-                    <span class="chart-temp-label">30°</span>
-                    <div class="chart-bars">
-                        <span class="forecast-bar" style="height: 75px;"></span>
-                        <span class="historic-bar" style="height: 70px;"></span>
-                    </div>
-                    <span class="chart-day-label">9 Abr</span>
-                </button>
-
+                {% endfor %}
             </div>
 
         </article>
-
     </section>
-
 
     <!-- ANÁLISE DO PERÍODO -->
     <section class="range-analysis-section">
-
-        <article class="range-analysis-card">
+        <article class="range-analysis-card" id="range-analysis">
 
             <div class="range-analysis-header">
                 <span class="range-analysis-icon">📅</span>
-                <h2>Análise do período: 7 Abr → 9 Abr</h2>
+                <h2 id="range-analysis-title">Análise do período: selecione um intervalo</h2>
             </div>
 
-            <div class="range-metrics">
-
+            <div class="range-metrics" id="range-metrics">
                 <div class="range-metric">
                     <span class="metric-label">Temp média</span>
-                    <strong class="metric-value">28°C</strong>
+                    <strong class="metric-value" id="range-temp">--</strong>
                 </div>
-
                 <div class="range-metric">
                     <span class="metric-label">Chuva média</span>
-                    <strong class="metric-value">22%</strong>
+                    <strong class="metric-value" id="range-rain">--</strong>
                 </div>
-
                 <div class="range-metric">
                     <span class="metric-label">Vento médio</span>
-                    <strong class="metric-value">13 km/h</strong>
+                    <strong class="metric-value" id="range-wind">--</strong>
                 </div>
-
                 <div class="range-metric">
                     <span class="metric-label">Score</span>
-                    <strong class="metric-value score-good">82/100</strong>
+                    <strong class="metric-value score-good" id="range-score">--</strong>
                 </div>
-
             </div>
 
             <div class="range-score-bar">
-                <div class="range-score-fill"></div>
+                <div class="range-score-fill" id="range-score-fill" style="width: 0%;"></div>
             </div>
 
-            <p class="range-analysis-text">
-                Período excelente para atividades ao ar livre.
+            <p class="range-analysis-text" id="range-analysis-text">
+                Clique em dois dias para ver a análise do intervalo.
             </p>
 
         </article>
-
     </section>
-
-
-    <!-- MELHOR JANELA -->
-    <section class="best-window-section">
-
-        <article class="best-window-card">
-
-            <div class="best-window-header">
-                <span class="best-window-icon">⚡</span>
-                <h2>Melhor janela de 5 dias</h2>
-            </div>
-
-            <p>
-                <strong>7 Abr → 11 Abr</strong> — Score 86/100. Menor risco climático no período selecionado.
-            </p>
-
-        </article>
-
-    </section>
-
 
     <!-- DETALHE DO DIA SELECIONADO -->
     <section class="selected-day-section">
-
-        <article class="selected-day-card">
+        <article class="selected-day-card" id="selected-day-card">
 
             <div class="selected-day-header">
-
                 <div class="selected-day-weather">
-                    <span class="selected-day-icon">☀️</span>
-
+                    <span class="selected-day-icon" id="selected-icon">{{ weather.forecast.0.icon }}</span>
                     <div>
-                        <h2>28°C</h2>
-                        <p>Hoje · Mín 20°</p>
+                        <h2 id="selected-temp">{{ weather.forecast.0.max_temp }}°C</h2>
+                        <p id="selected-label">Hoje · Mín {{ weather.forecast.0.min_temp }}°</p>
                     </div>
                 </div>
-
-                <span class="confidence-badge-page high-confidence">
-                    Alta confiança
-                </span>
-
             </div>
 
             <div class="weather-metrics-grid">
-
                 <div class="weather-metric-card">
                     <span class="weather-metric-icon">💧</span>
                     <span class="weather-metric-label">Chuva</span>
-                    <strong class="weather-metric-value">5%</strong>
+                    <strong class="weather-metric-value" id="selected-rain">{{ weather.forecast.0.rain_chance }}%</strong>
                 </div>
-
-                <div class="weather-metric-card">
-                    <span class="weather-metric-icon">💨</span>
-                    <span class="weather-metric-label">Vento</span>
-                    <strong class="weather-metric-value">12 km/h</strong>
-                </div>
-
-                <div class="weather-metric-card">
-                    <span class="weather-metric-icon">🌡️</span>
-                    <span class="weather-metric-label">Umidade</span>
-                    <strong class="weather-metric-value">62%</strong>
-                </div>
-
                 <div class="weather-metric-card">
                     <span class="weather-metric-icon">📈</span>
-                    <span class="weather-metric-label">Histórico</span>
-                    <strong class="weather-metric-value">27°C</strong>
+                    <span class="weather-metric-label">Score do dia</span>
+                    <strong class="weather-metric-value" id="selected-score">{{ weather.forecast.0.risk_score }}/100</strong>
                 </div>
-
             </div>
 
         </article>
-
     </section>
 
-
-    <!-- CONFIABILIDADE -->
-    <section class="confidence-explanation-section">
-
-        <article class="confidence-explanation-card">
-
-            <h2>Sobre a confiabilidade</h2>
-
-            <p>
-                O ClimaGo cruza dados de múltiplas fontes meteorológicas e compara com o histórico
-                dos últimos 5 anos para calcular a confiabilidade. Previsões até 7 dias têm alta
-                precisão; de 8 a 15 dias, média; acima de 15, baixa — mas ainda útil para planejamento.
-            </p>
-
-            <div class="confidence-list">
-                <span class="confidence-pill high-confidence">Alta</span>
-                <span class="confidence-pill medium-confidence">Média</span>
-                <span class="confidence-pill low-confidence">Baixa</span>
-            </div>
-
-        </article>
-
+    {% else %}
+    <section class="weather-error">
+        <h2>Não foi possível carregar a previsão.</h2>
+        <p>Verifique o nome da cidade ou tente novamente.</p>
     </section>
+    {% endif %}
 
 </main>
 
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // --- SELETOR DE PERÍODO ---
+    const periodButtons = document.querySelectorAll('.period-button');
+    const chartDays = document.querySelectorAll('.chart-day');
+
+    periodButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            periodButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const days = parseInt(btn.dataset.days);
+            chartDays.forEach((day, index) => {
+                day.style.display = index < days ? '' : 'none';
+            });
+        });
+    });
+
+    // --- SELEÇÃO DE INTERVALO ---
+    let rangeStart = null;
+    let rangeEnd = null;
+
+    chartDays.forEach(day => {
+        day.addEventListener('click', () => {
+            const index = parseInt(day.dataset.index);
+
+            if (rangeStart === null || (rangeStart !== null && rangeEnd !== null)) {
+                rangeStart = index;
+                rangeEnd = null;
+                chartDays.forEach(d => {
+                    d.classList.remove('range-selected', 'selected');
+                });
+                day.classList.add('selected');
+                updateSelectedDay(day);
+            } else {
+                rangeEnd = index;
+                if (rangeEnd < rangeStart) {
+                    [rangeStart, rangeEnd] = [rangeEnd, rangeStart];
+                }
+                chartDays.forEach(d => {
+                    const i = parseInt(d.dataset.index);
+                    d.classList.remove('range-selected', 'selected');
+                    if (i >= rangeStart && i <= rangeEnd) {
+                        d.classList.add('range-selected');
+                    }
+                });
+                updateRangeAnalysis();
+            }
+        });
+    });
+
+    function updateSelectedDay(day) {
+        document.getElementById('selected-icon').textContent = day.dataset.icon;
+        document.getElementById('selected-temp').textContent = day.dataset.temp + '°C';
+        document.getElementById('selected-label').textContent = day.dataset.label + ' · Mín ' + day.dataset.min + '°';
+        document.getElementById('selected-rain').textContent = day.dataset.rain + '%';
+        document.getElementById('selected-score').textContent = day.dataset.score + '/100';
+    }
+
+    function updateRangeAnalysis() {
+        const selectedDays = Array.from(chartDays).filter((d, i) => {
+            return parseInt(d.dataset.index) >= rangeStart && parseInt(d.dataset.index) <= rangeEnd;
+        });
+
+        const temps = selectedDays.map(d => parseFloat(d.dataset.temp)).filter(v => !isNaN(v));
+        const rains = selectedDays.map(d => parseFloat(d.dataset.rain)).filter(v => !isNaN(v));
+        const scores = selectedDays.map(d => parseFloat(d.dataset.score)).filter(v => !isNaN(v));
+
+        const avgTemp = temps.length ? Math.round(temps.reduce((a, b) => a + b) / temps.length) : '--';
+        const avgRain = rains.length ? Math.round(rains.reduce((a, b) => a + b) / rains.length) : '--';
+        const avgScore = scores.length ? Math.round(scores.reduce((a, b) => a + b) / scores.length) : '--';
+
+        const startLabel = selectedDays[0]?.dataset.label || '--';
+        const endLabel = selectedDays[selectedDays.length - 1]?.dataset.label || '--';
+
+        document.getElementById('range-analysis-title').textContent = `Análise do período: ${startLabel} → ${endLabel}`;
+        document.getElementById('range-temp').textContent = avgTemp !== '--' ? avgTemp + '°C' : '--';
+        document.getElementById('range-rain').textContent = avgRain !== '--' ? avgRain + '%' : '--';
+        document.getElementById('range-wind').textContent = '{{ weather.wind_speed }} km/h';
+        document.getElementById('range-score').textContent = avgScore !== '--' ? avgScore + '/100' : '--';
+
+        if (avgScore !== '--') {
+            document.getElementById('range-score-fill').style.width = avgScore + '%';
+        }
+
+        let text = 'Condições variáveis no período.';
+        if (avgScore >= 80) text = 'Período excelente para atividades ao ar livre.';
+        else if (avgScore >= 60) text = 'Condições favoráveis, mas fique de olho na chuva.';
+        else if (avgScore !== '--') text = 'Período com risco climático elevado. Planeje com cuidado.';
+
+        document.getElementById('range-analysis-text').textContent = text;
+    }
+</script>
 {% endblock %}
