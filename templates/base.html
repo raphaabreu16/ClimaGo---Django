@@ -8,6 +8,52 @@
     <title>{% block title %}ClimaGo{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block extra_css %}{% endblock %}
+    <style>
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: #ffffff;
+            border-top: 1px solid #e8eaf0;
+            padding: 8px 0 12px;
+            z-index: 1000;
+            box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            color: #9aa0b0;
+            flex: 1;
+            transition: color 0.2s;
+        }
+
+        .bottom-nav-item.active {
+            color: #3b82f6;
+        }
+
+        .bottom-nav-item svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .bottom-nav-label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
     {% block content %}
@@ -17,22 +63,37 @@
     <nav class="bottom-nav" aria-label="Navegação principal">
 
         <a href="{% url 'home' %}" class="bottom-nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
-            <span class="bottom-nav-icon">🏠</span>
+            <svg viewBox="0 0 24 24">
+                <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+                <path d="M9 21V12h6v9"/>
+            </svg>
             <span class="bottom-nav-label">Início</span>
         </a>
 
         <a href="{% url 'previsao' %}" class="bottom-nav-item {% if request.resolver_match.url_name == 'previsao' %}active{% endif %}">
-            <span class="bottom-nav-icon">📊</span>
+            <svg viewBox="0 0 24 24">
+                <path d="M2 20h20"/>
+                <path d="M6 16V10"/>
+                <path d="M10 16V6"/>
+                <path d="M14 16v-4"/>
+                <path d="M18 16V8"/>
+            </svg>
             <span class="bottom-nav-label">Previsão</span>
         </a>
 
         <a href="{% url 'eventos' %}" class="bottom-nav-item {% if request.resolver_match.url_name == 'eventos' %}active{% endif %}">
-            <span class="bottom-nav-icon">📅</span>
+            <svg viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                <path d="M16 2v4M8 2v4M3 10h18"/>
+            </svg>
             <span class="bottom-nav-label">Eventos</span>
         </a>
 
         <a href="{% url 'alertas' %}" class="bottom-nav-item {% if request.resolver_match.url_name == 'alertas' %}active{% endif %}">
-            <span class="bottom-nav-icon">🔔</span>
+            <svg viewBox="0 0 24 24">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
             <span class="bottom-nav-label">Alertas</span>
         </a>
 
