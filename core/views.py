@@ -4,6 +4,7 @@ from django.contrib.auth import (authenticate,login,logout)
 from django.contrib.auth.decorators import login_required
 from .forms import (PesquisaClimaForm,CadastroForm,LoginForm)
 from .services.weather_api import get_weather
+from .models import EventoCalendario
 
 
 def home(request):
@@ -21,20 +22,41 @@ def home(request):
             "forecast": [],
         }
 
+    eventos = EventoCalendario.objects.order_by("data_inicio")
+
     context = {
         "weather": weather,
         "city_search": city,
+        "eventos": eventos,
     }
 
     return render(request, "core/home.html", context)
 
-
 def previsao(request):
-    return render(request, 'core/previsao.html')
+    city = request.GET.get("city", "Rio de Janeiro")
+
+    try:
+        weather = get_weather(city)
+    except Exception:
+        weather = None
+
+    return render(request, 'core/previsao.html', {
+        'weather': weather,
+        'city': city,
+    })
 
 @login_required
 def calendario(request):
-    return render(request, 'core/calendario.html')
+
+    eventos = EventoCalendario.objects.order_by("data_inicio")
+
+    return render(
+        request,
+        "core/calendario.html",
+        {
+            "eventos": eventos
+        }
+    )
 
 @login_required
 def eventos(request):
