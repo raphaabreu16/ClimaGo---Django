@@ -200,7 +200,7 @@
     <!-- PREVISÃO 7 DIAS -->
     <section class="forecast-section">
 
-        {% include 'includes/section_header.html' with title='Próximos 7 dias' link_url='#' link_text='Ver previsão →' %}
+        {% include 'includes/section_header.html' with title='Próximos 7 dias' link_url='#' link_text='Ver próximos 30 dias →' %}
 
         <div class="forecast-list">
 
@@ -278,15 +278,19 @@
                 </div>
 
                 <div class="progress-bar">
-                    <div class="progress-fill air-progress"></div>
+                    {% if weather.air_quality.score != "--" %}
+                        <div class="progress-fill air-progress" style="width: {{ weather.air_quality.score }}%;"></div>
+                    {% else %}
+                        <div class="progress-fill air-progress" style="width: 0%;"></div>
+                    {% endif %}
                 </div>
 
                 <div class="progress-labels">
-                    <span>Excelente</span>
-                    <span>Boa</span>
-                    <span>Moderada</span>
-                    <span>Ruim</span>
                     <span>Perigosa</span>
+                    <span>Ruim</span>
+                    <span>Moderada</span>
+                    <span>Boa</span>
+                    <span>Excelente</span>
                 </div>
 
             </article>
