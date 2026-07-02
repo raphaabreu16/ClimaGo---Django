@@ -16,23 +16,24 @@
     </section>
 
     <!-- SELETOR DE PERÍODO -->
-    <section class="period-selector-section" aria-label="Selecionar período da previsão">
+    <section class="period-selector-section">
         <div class="period-selector">
-            <button type="button" class="period-button active" data-days="7">7 dias</button>
-            <button type="button" class="period-button" data-days="15">15 dias</button>
-            <button type="button" class="period-button" data-days="30">30 dias</button>
+            <a href="?city={{ city }}&periodo=7&dia=0"
+               class="period-button {% if periodo == 7 %}active{% endif %}">
+                7 dias
+            </a>
+            <a href="?city={{ city }}&periodo=15&dia=0"
+               class="period-button {% if periodo == 15 %}active{% endif %}">
+                15 dias
+            </a>
+            <a href="?city={{ city }}&periodo=30&dia=0"
+               class="period-button {% if periodo == 30 %}active{% endif %}">
+                30 dias
+            </a>
         </div>
     </section>
 
-    <!-- INSTRUÇÃO DO GRÁFICO -->
-    <section class="range-instruction">
-        <div class="range-instruction-content">
-            <span class="range-icon">📅</span>
-            <p>Clique em dois dias no gráfico para selecionar um intervalo</p>
-        </div>
-    </section>
-
-    {% if weather and weather.forecast %}
+    {% if weather and forecast_exibido %}
 
     <!-- GRÁFICO DE TEMPERATURA -->
     <section class="temperature-chart-section">
@@ -52,85 +53,108 @@
                 </div>
             </div>
 
-            <div class="temperature-chart" id="temperature-chart">
-                {% for day in weather.forecast %}
-                <button
-                    type="button"
-                    class="chart-day {% if forloop.first %}selected{% endif %}"
-                    data-index="{{ forloop.counter0 }}"
-                    data-temp="{{ day.max_temp }}"
-                    data-min="{{ day.min_temp }}"
-                    data-rain="{{ day.rain_chance }}"
-                    data-wind="{{ weather.wind_speed }}"
-                    data-humidity="{{ weather.humidity }}"
-                    data-icon="{{ day.icon }}"
-                    data-label="{{ day.day_label }}"
-                    data-score="{{ day.risk_score }}"
-                >
+            <div class="temperature-chart">
+                {% for day in forecast_exibido %}
+                <a href="?city={{ city }}&periodo={{ periodo }}&dia={{ forloop.counter0 }}"
+                   class="chart-day {% if forloop.counter0 == dia_selecionado %}selected{% endif %}">
                     <span class="chart-temp-label">{{ day.max_temp }}°</span>
                     <div class="chart-bars">
-                        {% with bar_height=day.max_temp|add:"-10" %}
                         <span class="forecast-bar" style="height: {{ day.max_temp }}px;"></span>
                         <span class="historic-bar" style="height: {{ day.min_temp }}px;"></span>
-                        {% endwith %}
                     </div>
                     <span class="chart-day-label">{{ day.day_label }}</span>
-                </button>
+                </a>
                 {% endfor %}
             </div>
 
         </article>
     </section>
 
+    <!-- SELEÇÃO DE INTERVALO -->
+    <section class="range-instruction">
+        <div class="range-instruction-content">
+            <span class="range-icon">📅</span>
+            <p>Selecione o início e fim do intervalo para análise</p>
+        </div>
+        <form method="GET">
+            <input type="hidden" name="city" value="{{ city }}">
+            <input type="hidden" name="periodo" value="{{ periodo }}">
+            <input type="hidden" name="dia" value="{{ dia_selecionado }}">
+            <select name="inicio">
+                {% for day in forecast_exibido %}
+                <option value="{{ forloop.counter0 }}"
+                    {% if inicio_intervalo == forloop.counter0|stringformat:"s" %}selected{% endif %}>
+                    {{ day.day_label }}
+                </option>
+                {% endfor %}
+            </select>
+            <span>até</span>
+            <select name="fim">
+                {% for day in forecast_exibido %}
+                <option value="{{ forloop.counter0 }}"
+                    {% if fim_intervalo == forloop.counter0|stringformat:"s" %}selected{% endif %}>
+                    {{ day.day_label }}
+                </option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="period-button active">Ver análise</button>
+        </form>
+    </section>
+
     <!-- ANÁLISE DO PERÍODO -->
     <section class="range-analysis-section">
-        <article class="range-analysis-card" id="range-analysis">
+        <article class="range-analysis-card">
 
             <div class="range-analysis-header">
                 <span class="range-analysis-icon">📅</span>
-                <h2 id="range-analysis-title">Análise do período: selecione um intervalo</h2>
+                {% if analise_intervalo %}
+                <h2>Análise: {{ analise_intervalo.inicio_label }} → {{ analise_intervalo.fim_label }}</h2>
+                {% else %}
+                <h2>Análise do período</h2>
+                {% endif %}
             </div>
 
-            <div class="range-metrics" id="range-metrics">
+            {% if analise_intervalo %}
+            <div class="range-metrics">
                 <div class="range-metric">
                     <span class="metric-label">Temp média</span>
-                    <strong class="metric-value" id="range-temp">--</strong>
+                    <strong class="metric-value">{{ analise_intervalo.temp_media }}°C</strong>
                 </div>
                 <div class="range-metric">
                     <span class="metric-label">Chuva média</span>
-                    <strong class="metric-value" id="range-rain">--</strong>
+                    <strong class="metric-value">{{ analise_intervalo.chuva_media }}%</strong>
                 </div>
                 <div class="range-metric">
                     <span class="metric-label">Vento médio</span>
-                    <strong class="metric-value" id="range-wind">--</strong>
+                    <strong class="metric-value">{{ analise_intervalo.vento_medio }} km/h</strong>
                 </div>
                 <div class="range-metric">
                     <span class="metric-label">Score</span>
-                    <strong class="metric-value score-good" id="range-score">--</strong>
+                    <strong class="metric-value score-good">{{ analise_intervalo.score_medio }}/100</strong>
                 </div>
             </div>
-
             <div class="range-score-bar">
-                <div class="range-score-fill" id="range-score-fill" style="width: 0%;"></div>
+                <div class="range-score-fill" style="width: {{ analise_intervalo.score_medio }}%;"></div>
             </div>
-
-            <p class="range-analysis-text" id="range-analysis-text">
-                Clique em dois dias para ver a análise do intervalo.
-            </p>
+            <p class="range-analysis-text">{{ analise_intervalo.texto }}</p>
+            {% else %}
+            <p class="range-analysis-text">Selecione um intervalo acima para ver a análise.</p>
+            {% endif %}
 
         </article>
     </section>
 
     <!-- DETALHE DO DIA SELECIONADO -->
+    {% if dia_detalhe %}
     <section class="selected-day-section">
-        <article class="selected-day-card" id="selected-day-card">
+        <article class="selected-day-card">
 
             <div class="selected-day-header">
                 <div class="selected-day-weather">
-                    <span class="selected-day-icon" id="selected-icon">{{ weather.forecast.0.icon }}</span>
+                    <span class="selected-day-icon">{{ dia_detalhe.icon }}</span>
                     <div>
-                        <h2 id="selected-temp">{{ weather.forecast.0.max_temp }}°C</h2>
-                        <p id="selected-label">Hoje · Mín {{ weather.forecast.0.min_temp }}°</p>
+                        <h2>{{ dia_detalhe.max_temp }}°C</h2>
+                        <p>{{ dia_detalhe.day_label }} · Mín {{ dia_detalhe.min_temp }}°</p>
                     </div>
                 </div>
             </div>
@@ -139,17 +163,18 @@
                 <div class="weather-metric-card">
                     <span class="weather-metric-icon">💧</span>
                     <span class="weather-metric-label">Chuva</span>
-                    <strong class="weather-metric-value" id="selected-rain">{{ weather.forecast.0.rain_chance }}%</strong>
+                    <strong class="weather-metric-value">{{ dia_detalhe.rain_chance }}%</strong>
                 </div>
                 <div class="weather-metric-card">
                     <span class="weather-metric-icon">📈</span>
                     <span class="weather-metric-label">Score do dia</span>
-                    <strong class="weather-metric-value" id="selected-score">{{ weather.forecast.0.risk_score }}/100</strong>
+                    <strong class="weather-metric-value">{{ dia_detalhe.risk_score }}/100</strong>
                 </div>
             </div>
 
         </article>
     </section>
+    {% endif %}
 
     {% else %}
     <section class="weather-error">
@@ -160,99 +185,4 @@
 
 </main>
 
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    // --- SELETOR DE PERÍODO ---
-    const periodButtons = document.querySelectorAll('.period-button');
-    const chartDays = document.querySelectorAll('.chart-day');
-
-    periodButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            periodButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            const days = parseInt(btn.dataset.days);
-            chartDays.forEach((day, index) => {
-                day.style.display = index < days ? '' : 'none';
-            });
-        });
-    });
-
-    // --- SELEÇÃO DE INTERVALO ---
-    let rangeStart = null;
-    let rangeEnd = null;
-
-    chartDays.forEach(day => {
-        day.addEventListener('click', () => {
-            const index = parseInt(day.dataset.index);
-
-            if (rangeStart === null || (rangeStart !== null && rangeEnd !== null)) {
-                rangeStart = index;
-                rangeEnd = null;
-                chartDays.forEach(d => {
-                    d.classList.remove('range-selected', 'selected');
-                });
-                day.classList.add('selected');
-                updateSelectedDay(day);
-            } else {
-                rangeEnd = index;
-                if (rangeEnd < rangeStart) {
-                    [rangeStart, rangeEnd] = [rangeEnd, rangeStart];
-                }
-                chartDays.forEach(d => {
-                    const i = parseInt(d.dataset.index);
-                    d.classList.remove('range-selected', 'selected');
-                    if (i >= rangeStart && i <= rangeEnd) {
-                        d.classList.add('range-selected');
-                    }
-                });
-                updateRangeAnalysis();
-            }
-        });
-    });
-
-    function updateSelectedDay(day) {
-        document.getElementById('selected-icon').textContent = day.dataset.icon;
-        document.getElementById('selected-temp').textContent = day.dataset.temp + '°C';
-        document.getElementById('selected-label').textContent = day.dataset.label + ' · Mín ' + day.dataset.min + '°';
-        document.getElementById('selected-rain').textContent = day.dataset.rain + '%';
-        document.getElementById('selected-score').textContent = day.dataset.score + '/100';
-    }
-
-    function updateRangeAnalysis() {
-        const selectedDays = Array.from(chartDays).filter((d, i) => {
-            return parseInt(d.dataset.index) >= rangeStart && parseInt(d.dataset.index) <= rangeEnd;
-        });
-
-        const temps = selectedDays.map(d => parseFloat(d.dataset.temp)).filter(v => !isNaN(v));
-        const rains = selectedDays.map(d => parseFloat(d.dataset.rain)).filter(v => !isNaN(v));
-        const scores = selectedDays.map(d => parseFloat(d.dataset.score)).filter(v => !isNaN(v));
-
-        const avgTemp = temps.length ? Math.round(temps.reduce((a, b) => a + b) / temps.length) : '--';
-        const avgRain = rains.length ? Math.round(rains.reduce((a, b) => a + b) / rains.length) : '--';
-        const avgScore = scores.length ? Math.round(scores.reduce((a, b) => a + b) / scores.length) : '--';
-
-        const startLabel = selectedDays[0]?.dataset.label || '--';
-        const endLabel = selectedDays[selectedDays.length - 1]?.dataset.label || '--';
-
-        document.getElementById('range-analysis-title').textContent = `Análise do período: ${startLabel} → ${endLabel}`;
-        document.getElementById('range-temp').textContent = avgTemp !== '--' ? avgTemp + '°C' : '--';
-        document.getElementById('range-rain').textContent = avgRain !== '--' ? avgRain + '%' : '--';
-        document.getElementById('range-wind').textContent = '{{ weather.wind_speed }} km/h';
-        document.getElementById('range-score').textContent = avgScore !== '--' ? avgScore + '/100' : '--';
-
-        if (avgScore !== '--') {
-            document.getElementById('range-score-fill').style.width = avgScore + '%';
-        }
-
-        let text = 'Condições variáveis no período.';
-        if (avgScore >= 80) text = 'Período excelente para atividades ao ar livre.';
-        else if (avgScore >= 60) text = 'Condições favoráveis, mas fique de olho na chuva.';
-        else if (avgScore !== '--') text = 'Período com risco climático elevado. Planeje com cuidado.';
-
-        document.getElementById('range-analysis-text').textContent = text;
-    }
-</script>
 {% endblock %}
