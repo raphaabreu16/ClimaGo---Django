@@ -1,8 +1,11 @@
-{# Item individual de detalhes climáticos (umidade, vento, UV) #}
 <div class="weather-detail-item">
     <span class="detail-icon">{{ icon }}</span>
-    <div>
+
+    <div class="detail-content">
         <span class="detail-label">{{ label }}</span>
-        <strong class="detail-value">{{ value }}</strong>
+
+        <strong class="detail-value">
+            {{ value }}{% if unit %} {{ unit }}{% endif %}
+        </strong>
     </div>
 </div>

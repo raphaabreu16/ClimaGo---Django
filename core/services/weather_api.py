@@ -63,8 +63,10 @@ def get_weather(city_name="Rio de Janeiro"):
     pressure = current.get("surface_pressure")
 
     today_rain_chance = get_list_value(daily, "precipitation_probability_max", 0, 0)
+
     if today_rain_chance is None:
         today_rain_chance = 0
+
     today_max_temp = get_list_value(daily, "temperature_2m_max", 0)
     today_min_temp = get_list_value(daily, "temperature_2m_min", 0)
     today_uv_index = get_list_value(daily, "uv_index_max", 0)
@@ -190,6 +192,7 @@ def get_empty_weather(city_name):
             "pm25": "--",
             "status": "Indisponível",
             "status_class": "",
+            "score": "--",
         },
         "forecast": [],
         "score": "--",
@@ -233,9 +236,10 @@ def format_forecast(daily):
         max_temp = get_list_value(daily, "temperature_2m_max", index)
         min_temp = get_list_value(daily, "temperature_2m_min", index)
         rain_chance = get_list_value(daily, "precipitation_probability_max", index, 0)
+        uv_index = get_list_value(daily, "uv_index_max", index)
+
         if rain_chance is None:
             rain_chance = 0
-        uv_index = get_list_value(daily, "uv_index_max", index)
 
         forecast.append(
             {
@@ -288,6 +292,7 @@ def get_air_quality(latitude, longitude, timezone):
             "pm25": round(pm25, 1) if pm25 is not None else "--",
             "status": get_air_quality_status(aqi),
             "status_class": get_air_quality_class(aqi),
+            "score": max(0, min(100, 100 - round(aqi))) if aqi is not None else "--",
         }
 
     except Exception:
@@ -297,6 +302,7 @@ def get_air_quality(latitude, longitude, timezone):
             "pm25": "--",
             "status": "Indisponível",
             "status_class": "",
+            "score": "--",
         }
 
 
