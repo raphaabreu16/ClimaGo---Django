@@ -1,37 +1,48 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Login
+Login - ClimaGo
 {% endblock %}
 
 {% block content %}
 
-<main class="page-content">
+<main class="auth-page">
 
-    <h1>Entrar</h1>
+    <section class="auth-card">
 
-    {% if erro %}
-        <p>{{ erro }}</p>
-    {% endif %}
+        <h1>Entrar</h1>
 
-    <form method="POST">
+        <p class="auth-subtitle">
+            Acesse sua conta para salvar eventos e calendário.
+        </p>
 
-        {% csrf_token %}
+        <form method="POST">
 
-        {{ form.as_p }}
+            {% csrf_token %}
 
-        <button type="submit">
-            Entrar
-        </button>
+            {{ form.as_p }}
 
-    </form>
+            <button
+                type="submit"
+                class="auth-button">
 
-    <p>
-        Não possui conta?
-        <a href="{% url 'cadastro' %}">
-            Cadastre-se
-        </a>
-    </p>
+                Entrar
+
+            </button>
+
+        </form>
+
+        <p class="auth-link">
+
+            Ainda não possui conta?
+
+            <a href="{% url 'cadastro' %}">
+                Criar conta
+            </a>
+
+        </p>
+
+    </section>
 
 </main>
 
