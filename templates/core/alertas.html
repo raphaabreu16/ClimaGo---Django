@@ -1,49 +1,146 @@
 {% extends 'base.html' %}
 
-{% block title %}
-Login - ClimaGo
-{% endblock %}
+{% block title %}Alertas - ClimaGo{% endblock %}
 
 {% block content %}
 
-<main class="auth-page">
+<main class="alertas-page">
 
-    <section class="auth-card">
+    <section class="alertas-header">
+        <h1>Alertas</h1>
+        <p class="alertas-subtitle">Notificações e configurações</p>
+    </section>
 
-        <h1>Entrar</h1>
+    <section class="alertas-tabs">
+        <button class="alertas-tab active">🔔 Histórico</button>
+        <button class="alertas-tab">⚙️ Configurações</button>
+    </section>
 
-        <p class="auth-subtitle">
-            Acesse sua conta para salvar eventos e calendário.
-        </p>
+    <section class="alertas-lista">
 
-        <form method="POST">
+        <article class="alerta-card alerta-chuva">
+            <div class="alerta-icon">🌧️</div>
+            <div class="alerta-content">
+                <h3>Chuva forte prevista</h3>
+                <p>70% de probabilidade para Ter, 8 Abr. Sua trilha pode ser afetada.</p>
+                <span class="alerta-tempo">🕐 Há 2 horas</span>
+            </div>
+        </article>
 
-            {% csrf_token %}
+        <article class="alerta-card alerta-vento">
+            <div class="alerta-icon">💨</div>
+            <div class="alerta-content">
+                <h3>Vento acima do normal</h3>
+                <p>Rajadas de até 45 km/h previstas para Qua, 9 Abr.</p>
+                <span class="alerta-tempo">🕐 Há 5 horas</span>
+            </div>
+        </article>
 
-            {{ form.as_p }}
+        <article class="alerta-card alerta-calor">
+            <div class="alerta-icon">🌡️</div>
+            <div class="alerta-content">
+                <h3>Onda de calor</h3>
+                <p>Temperaturas acima de 35°C previstas para a próxima semana.</p>
+                <span class="alerta-tempo">🕐 Ontem</span>
+            </div>
+        </article>
 
-            <button
-                type="submit"
-                class="auth-button">
-
-                Entrar
-
-            </button>
-
-        </form>
-
-        <p class="auth-link">
-
-            Ainda não possui conta?
-
-            <a href="{% url 'cadastro' %}">
-                Criar conta
-            </a>
-
-        </p>
+        <article class="alerta-card alerta-frio">
+            <div class="alerta-icon">❄️</div>
+            <div class="alerta-content">
+                <h3>Frente fria se aproximando</h3>
+                <p>Queda de temperatura de 10°C entre Qui e Sex.</p>
+                <span class="alerta-tempo">🕐 2 dias atrás</span>
+            </div>
+        </article>
 
     </section>
 
 </main>
+
+<style>
+    .alertas-page {
+        padding: 24px 16px 100px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .alertas-header {
+        margin-bottom: 20px;
+    }
+
+    .alertas-header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    .alertas-subtitle {
+        color: #666;
+        font-size: 14px;
+    }
+
+    .alertas-tabs {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .alertas-tab {
+        padding: 10px 20px;
+        border-radius: 20px;
+        border: 1px solid #e0e0e0;
+        background: white;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        color: #666;
+    }
+
+    .alertas-tab.active {
+        background: #f0f4ff;
+        border-color: #3b82f6;
+        color: #3b82f6;
+    }
+
+    .alertas-lista {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .alerta-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        background: white;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+
+    .alerta-icon {
+        font-size: 28px;
+        min-width: 40px;
+        text-align: center;
+    }
+
+    .alerta-content h3 {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+
+    .alerta-content p {
+        font-size: 13px;
+        color: #555;
+        margin-bottom: 6px;
+    }
+
+    .alerta-tempo {
+        font-size: 12px;
+        color: #999;
+    }
+</style>
 
 {% endblock %}
