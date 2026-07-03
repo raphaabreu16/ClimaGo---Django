@@ -149,6 +149,7 @@ def get_weather(city_name="Rio de Janeiro"):
         "pressure": {
             "value": round(pressure) if pressure is not None else "--",
             "status": get_pressure_status(pressure),
+            "score": get_pressure_score(pressure),
         },
         "air_quality": air_quality,
         "forecast": forecast,
@@ -185,6 +186,7 @@ def get_empty_weather(city_name):
         "pressure": {
             "value": "--",
             "status": "Indisponível",
+            "score": "--",
         },
         "air_quality": {
             "aqi": "--",
@@ -292,7 +294,7 @@ def get_air_quality(latitude, longitude, timezone):
             "pm25": round(pm25, 1) if pm25 is not None else "--",
             "status": get_air_quality_status(aqi),
             "status_class": get_air_quality_class(aqi),
-            "score": max(0, min(100, 100 - round(aqi))) if aqi is not None else "--",
+            "score": get_air_quality_score(aqi),
         }
 
     except Exception:
@@ -550,6 +552,18 @@ def get_pressure_status(pressure):
     return "Normal"
 
 
+def get_pressure_score(pressure):
+    if pressure is None:
+        return "--"
+
+    min_pressure = 980
+    max_pressure = 1040
+
+    score = ((pressure - min_pressure) / (max_pressure - min_pressure)) * 100
+
+    return max(0, min(round(score), 100))
+
+
 def get_air_quality_status(aqi):
     if aqi is None:
         return "Indisponível"
@@ -576,6 +590,24 @@ def get_air_quality_class(aqi):
         return "status-moderate"
 
     return "status-bad"
+
+
+def get_air_quality_score(aqi):
+    if aqi is None:
+        return "--"
+
+    if aqi <= 20:
+        return 90
+    if aqi <= 40:
+        return 75
+    if aqi <= 60:
+        return 55
+    if aqi <= 80:
+        return 35
+    if aqi <= 100:
+        return 15
+
+    return 5
 
 
 def calculate_day_risk_score(max_temp, min_temp, rain_chance, uv_index, weather_code):
