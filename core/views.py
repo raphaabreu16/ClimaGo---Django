@@ -165,7 +165,7 @@ def logout_view(request):
     return redirect('home')
 
 
-@login_required
+
 def alertas(request):
     return render(request, 'core/alertas.html')
 
