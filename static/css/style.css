@@ -1513,7 +1513,8 @@ a {
 /* AJUSTE DA HOTBAR COM 3 BOTÕES */
 
 .bottom-nav {
-    grid-template-columns: repeat(3, 1fr);
+    display: flex !important;
+    grid-template-columns: unset !important;
 }
 
 /* RESPONSIVO EVENTOS */
