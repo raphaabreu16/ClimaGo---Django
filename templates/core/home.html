@@ -316,7 +316,7 @@
                 </div>
 
                 <div class="progress-bar">
-                    {% if weather.air_quality.score != "--" %}
+                    {% if weather.pressure.value != "--" %}
                         <div class="progress-fill pressure-progress" style="width: {{ weather.pressure.value }}%"></div>
                     {% else %}
                         <div class="progress-fill pressure-progress" style="width: 0%;"></div>
