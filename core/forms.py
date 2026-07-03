@@ -52,3 +52,4 @@ class LoginForm(forms.Form):
         widget=forms.PasswordInput
 
     ) 
+    
