@@ -200,11 +200,7 @@
     <!-- PREVISÃO 7 DIAS -->
     <section class="forecast-section">
 
-<<<<<<< HEAD
-        {% include 'includes/section_header.html' with title='Próximos 7 dias' link_url='/previsao/' link_text='Ver previsão →' %}
-=======
-        {% include 'includes/section_header.html' with title='Próximos 7 dias' link_url='#' link_text='Ver próximos 30 dias →' %}
->>>>>>> 0355eb75ed556705238dff69ae45b6bc11a6d774
+        {% include 'includes/section_header.html' with title='Próximos 7 dias' link_url='/calendario/' link_text='Ver próximos 30 dias →' %}
 
         <div class="forecast-list">
 
@@ -320,7 +316,11 @@
                 </div>
 
                 <div class="progress-bar">
-                    <div class="progress-fill pressure-progress"></div>
+                    {% if weather.air_quality.score != "--" %}
+                        <div class="progress-fill pressure-progress" style="width: {{ weather.pressure.value }}%"></div>
+                    {% else %}
+                        <div class="progress-fill pressure-progress" style="width: 0%;"></div>
+                    {% endif %}
                 </div>
 
                 <div class="progress-labels">
