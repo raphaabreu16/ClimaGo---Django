@@ -1511,12 +1511,7 @@ align-items: center;
     cursor: pointer;
 }
 
-/* AJUSTE DA HOTBAR COM 3 BOTÕES */
 
-.bottom-nav {
-    display: flex !important;
-    grid-template-columns: unset !important;
-}
 
 /* RESPONSIVO EVENTOS */
 
