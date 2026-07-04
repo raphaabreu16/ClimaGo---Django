@@ -29,13 +29,13 @@ class EventoForm(forms.Form):
     )
     data_inicio = forms.DateTimeField(
         label='Data e hora de início',
-        widget=forms.DateTimeLocalInput(attrs={'type': 'datetime-local'})
-        if hasattr(forms, 'DateTimeLocalInput')
-        else forms.DateTimeField(widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
+        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        input_formats=['%Y-%m-%dT%H:%M'],
     )
     data_fim = forms.DateTimeField(
         label='Data e hora de fim',
-        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'})
+        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        input_formats=['%Y-%m-%dT%H:%M'],
     )
     local_evento = forms.CharField(
         label='Localização',
@@ -51,4 +51,4 @@ class EventoForm(forms.Form):
         label='Descrição',
         required=False,
         widget=forms.Textarea(attrs={'rows': 3, 'placeholder': 'Detalhes do evento...'})
-    ) 
+    )
