@@ -630,10 +630,7 @@ a {
     .weather-details {
         justify-content: flex-start;
         gap: 38px;
-    }
-    .bottom-nav {
-        max-width: 760px;
-    }   
+     
 }
 /*Container*/
 .calendario-container{
