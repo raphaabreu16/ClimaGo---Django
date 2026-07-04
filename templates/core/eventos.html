@@ -256,7 +256,21 @@
             </div>
 
         </article>
-
+{% for evento in eventos_usuario %}
+<article class="event-page-card event-page-safe">
+    <div class="event-page-main">
+        <div class="event-page-icon">📅</div>
+        <div class="event-page-info">
+            <div class="event-page-title-row">
+                <h2>{{ evento.titulo }}</h2>
+                <span class="event-page-status status-safe">Evento</span>
+            </div>
+            <p class="event-page-date">📅 {{ evento.data_inicio }}</p>
+            <p class="event-page-location">📍 {{ evento.local_evento }}</p>
+        </div>
+    </div>
+</article>
+{% endfor %}
     </section>
 
 
