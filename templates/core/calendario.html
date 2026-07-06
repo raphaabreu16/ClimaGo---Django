@@ -1,117 +1,139 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendário Climático</title>
-
-<!DOCTYPE html>
-
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendário Climático</title>
-
-
+{% extends 'base.html' %}
 {% load static %}
 
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% block title %}Calendário - ClimaGo{% endblock %}
 
+{% block content %}
 
-</head>
-<body>
+<main class="calendario-page">
 
-<div class="calendario-container">
+    <section class="calendario-header">
+        <h1>📅 Calendário</h1>
+        <p>Seus eventos e a previsão do mês</p>
+    </section>
 
-    <h1>📅 Visão Mensal</h1>
+    <section class="calendario-eventos">
 
-    <p>
-        Veja a previsão climática do mês.
-    </p>
+        {% if eventos %}
+            {% for evento in eventos %}
+            <article class="calendario-card">
+                <div class="calendario-card-icon">📅</div>
+                <div class="calendario-card-info">
+                    <h3>{{ evento.titulo }}</h3>
+                    <p class="calendario-data">{{ evento.data_inicio }}</p>
+                    {% if evento.local_evento %}
+                    <p class="calendario-local">📍 {{ evento.local_evento }}</p>
+                    {% endif %}
+                    <span class="calendario-tipo">{{ evento.get_tipo_evento_display }}</span>
+                </div>
+            </article>
+            {% endfor %}
+        {% else %}
+            <div class="calendario-vazio">
+                <p>📭 Nenhum evento cadastrado ainda.</p>
+                <a href="/eventos/" class="calendario-cta">Criar primeiro evento</a>
+            </div>
+        {% endif %}
 
-    <div class="mes-selector">
-        <button>◀</button>
-        <span>Junho 2026</span>
-        <button>▶</button>
-    </div>
+    </section>
 
-    <div class="dias">
+</main>
 
-        <div class="dia-card destaque">
-            <h3>1</h3>
-            <p>☀️</p>
-            <small>26°C</small>
-        </div>
+<style>
+    .calendario-page {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 32px 18px 100px;
+    }
 
-        <div class="dia-card">
-            <h3>2</h3>
-            <p>☀️</p>
-            <small>24°C</small>
-        </div>
+    .calendario-header {
+        margin-bottom: 24px;
+    }
 
-        <div class="dia-card">
-            <h3>3</h3>
-            <p>⛅</p>
-            <small>22°C</small>
-        </div>
+    .calendario-header h1 {
+        font-size: 26px;
+        font-weight: 800;
+        margin: 0 0 4px;
+    }
 
-        <div class="dia-card">
-            <h3>4</h3>
-            <p>🌧️</p>
-            <small>19°C</small>
-        </div>
+    .calendario-header p {
+        color: #6b7280;
+        font-size: 14px;
+        margin: 0;
+    }
 
-        <div class="dia-card">
-            <h3>5</h3>
-            <p>🌧️</p>
-            <small>18°C</small>
-        </div>
+    .calendario-eventos {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
 
-        <div class="dia-card">
-            <h3>6</h3>
-            <p>☀️</p>
-            <small>27°C</small>
-        </div>
+    .calendario-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        background: white;
+        border-radius: 20px;
+        padding: 18px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+        border: 1px solid #e5e7eb;
+    }
 
-    </div>
+    .calendario-card-icon {
+        font-size: 28px;
+        min-width: 44px;
+        height: 44px;
+        background: #eaf2ff;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-    <div class="legenda">
-        <span class="tempo-bom">🟢 Tempo bom</span>
-        <span class="atencao">🟡 Atenção</span>
-        <span class="risco">🔴 Risco</span>
-    </div>
+    .calendario-card-info h3 {
+        margin: 0 0 4px;
+        font-size: 15px;
+        font-weight: 700;
+    }
 
-<h2>Eventos do mês</h2>
+    .calendario-data {
+        margin: 0 0 4px;
+        font-size: 13px;
+        color: #6b7280;
+    }
 
-{% if eventos %}
+    .calendario-local {
+        margin: 0 0 6px;
+        font-size: 12px;
+        color: #9ca3af;
+    }
 
-<div class="lista-eventos">
+    .calendario-tipo {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 999px;
+        background: #eaf2ff;
+        color: #2563eb;
+        font-size: 11px;
+        font-weight: 700;
+    }
 
-    {% for evento in eventos %}
+    .calendario-vazio {
+        text-align: center;
+        padding: 48px 0;
+        color: #6b7280;
+    }
 
-    <div class="evento-card">
+    .calendario-cta {
+        display: inline-block;
+        margin-top: 14px;
+        padding: 12px 24px;
+        background: #2563eb;
+        color: white;
+        border-radius: 14px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+</style>
 
-        <h3>{{ evento.titulo }}</h3>
-
-        <p>{{ evento.data_inicio }}</p>
-
-        <p>{{ evento.local_evento }}</p>
-
-    </div>
-
-    {% endfor %}
-
-</div>
-
-{% else %}
-
-<p>Nenhum evento cadastrado.</p>
-
-{% endif %}
-
-</div>
-
-
-</body>
-</html>
+{% endblock %}

@@ -256,86 +256,81 @@
             </div>
 
         </article>
-
+{% for evento in eventos_usuario %}
+<article class="event-page-card event-page-safe">
+    <div class="event-page-main">
+        <div class="event-page-icon">📅</div>
+        <div class="event-page-info">
+            <div class="event-page-title-row">
+                <h2>{{ evento.titulo }}</h2>
+                <span class="event-page-status status-safe">Evento</span>
+            </div>
+            <p class="event-page-date">📅 {{ evento.data_inicio }}</p>
+            <p class="event-page-location">📍 {{ evento.local_evento }}</p>
+        </div>
+    </div>
+</article>
+{% endfor %}
     </section>
 
 
-    <!-- FORMULÁRIO ESTÁTICO DE NOVO EVENTO -->
+    <!-- FORMULÁRIO NOVO EVENTO -->
     <section class="new-event-section" id="novo-evento">
+    <article class="new-event-card">
 
-        <article class="new-event-card">
+        <div class="new-event-header">
+            <h2>Novo Evento</h2>
+            <p>Adicione um evento para acompanhar a previsão do tempo.</p>
+        </div>
 
-            <div class="new-event-header">
-                <h2>Novo Evento</h2>
-                <p>Adicione um evento para acompanhar a previsão do tempo.</p>
+        {% if sucesso %}
+            <p style="color: green; font-weight: 600;">{{ sucesso }}</p>
+        {% endif %}
+
+        {% if not user.is_authenticated %}
+            <p>Você precisa estar <a href="{% url 'login' %}">logado</a> para criar eventos.</p>
+        {% else %}
+        <form method="POST" class="new-event-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Nome do evento</label>
+                {{ form.titulo }}
             </div>
 
-            <form class="new-event-form">
+            <div class="form-group">
+                <label>Data e hora de início</label>
+                {{ form.data_inicio }}
+            </div>
 
-                <div class="form-group">
-                    <label for="event-name">Nome do evento</label>
-                    <input type="text" id="event-name" placeholder="Ex: Trilha na serra">
-                </div>
+            <div class="form-group">
+                <label>Data e hora de fim</label>
+                {{ form.data_fim }}
+            </div>
 
-                <div class="form-group">
-                    <label for="event-date">Data</label>
-                    <input type="date" id="event-date">
-                </div>
+            <div class="form-group">
+                <label>Localização</label>
+                {{ form.local_evento }}
+            </div>
 
-                <div class="form-group">
-                    <label for="event-location">Localização</label>
-                    <input type="text" id="event-location" placeholder="Buscar cidade ou país...">
-                </div>
+            <div class="form-group">
+                <label>Tipo de evento</label>
+                {{ form.tipo_evento }}
+            </div>
 
-                <div class="form-group">
-                    <label>Condição climática desejada</label>
+            <div class="form-group">
+                <label>Descrição</label>
+                {{ form.descricao }}
+            </div>
 
-                    <div class="weather-preference-grid">
+            <button type="submit" class="submit-event-button">
+                Adicionar Evento
+            </button>
+        </form>
+        {% endif %}
 
-                        <button type="button" class="weather-preference-card active">
-                            <span>☀️</span>
-                            <div>
-                                <strong>Sol</strong>
-                                <small>Tempo aberto</small>
-                            </div>
-                        </button>
-
-                        <button type="button" class="weather-preference-card">
-                            <span>🌧️</span>
-                            <div>
-                                <strong>Chuva</strong>
-                                <small>Evento com chuva</small>
-                            </div>
-                        </button>
-
-                        <button type="button" class="weather-preference-card">
-                            <span>🌤️</span>
-                            <div>
-                                <strong>Ameno</strong>
-                                <small>Clima agradável</small>
-                            </div>
-                        </button>
-
-                        <button type="button" class="weather-preference-card">
-                            <span>❄️</span>
-                            <div>
-                                <strong>Frio</strong>
-                                <small>Baixa temperatura</small>
-                            </div>
-                        </button>
-
-                    </div>
-                </div>
-
-                <button type="button" class="submit-event-button">
-                    Adicionar Evento
-                </button>
-
-            </form>
-
-        </article>
-
-    </section>
+    </article>
+</section>
 
 </main>
 

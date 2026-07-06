@@ -630,10 +630,7 @@ a {
     .weather-details {
         justify-content: flex-start;
         gap: 38px;
-    }
-    .bottom-nav {
-        max-width: 760px;
-    }   
+     
 }
 /*Container*/
 .calendario-container{
@@ -683,15 +680,13 @@ a {
 
 .bottom-nav {
     position: fixed;
-    left: 50%;
     bottom: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
 
     width: 100%;
-    max-width: 520px;
     height: 76px;
-
-    transform: translateX(-50%);
 
     padding: 8px 18px 10px;
 
@@ -699,8 +694,9 @@ a {
     border-top: 1px solid #e5e7eb;
     box-shadow: 0 -10px 30px rgba(15, 23, 42, 0.08);
 
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .bottom-nav-item {
@@ -1510,11 +1506,7 @@ a {
     cursor: pointer;
 }
 
-/* AJUSTE DA HOTBAR COM 3 BOTÕES */
 
-.bottom-nav {
-    grid-template-columns: repeat(3, 1fr);
-}
 
 /* RESPONSIVO EVENTOS */
 

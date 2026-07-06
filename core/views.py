@@ -4,7 +4,7 @@ from django.contrib.auth import (authenticate, login, logout)
 from django.contrib.auth.decorators import login_required
 from .forms import (PesquisaClimaForm, CadastroForm, LoginForm)
 from .services.weather_api import get_weather
-from .models import EventoCalendario
+from .models import EventoCalendario, Perfil
 
 
 def home(request):
@@ -108,10 +108,39 @@ def calendario(request):
     eventos = EventoCalendario.objects.order_by("data_inicio")
     return render(request, "core/calendario.html", {"eventos": eventos})
 
-
 @login_required
 def eventos(request):
-    return render(request, 'core/eventos.html')
+    perfil, _ = Perfil.objects.get_or_create(user=request.user)
+    eventos_usuario = EventoCalendario.objects.filter(usuario=perfil).order_by('data_inicio')
+    erro = None
+    sucesso = None
+
+    if request.method == 'POST':
+        from .forms import EventoForm
+        form = EventoForm(request.POST)
+        if form.is_valid():
+            EventoCalendario.objects.create(
+                usuario=perfil,
+                titulo=form.cleaned_data['titulo'],
+                data_inicio=form.cleaned_data['data_inicio'],
+                data_fim=form.cleaned_data['data_fim'],
+                local_evento=form.cleaned_data.get('local_evento', ''),
+                tipo_evento=form.cleaned_data['tipo_evento'],
+                descricao=form.cleaned_data.get('descricao', ''),
+            )
+            sucesso = 'Evento criado com sucesso!'
+            from .forms import EventoForm
+            form = EventoForm()
+    else:
+        from .forms import EventoForm
+        form = EventoForm()
+
+    return render(request, 'core/eventos.html', {
+        'form': form,
+        'eventos_usuario': eventos_usuario,
+        'erro': erro,
+        'sucesso': sucesso,
+    })
 
 
 def pesquisar_clima(request):
@@ -165,7 +194,7 @@ def logout_view(request):
     return redirect('home')
 
 
-@login_required
+
 def alertas(request):
     return render(request, 'core/alertas.html')
 
