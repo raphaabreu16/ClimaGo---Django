@@ -298,7 +298,7 @@
 
             <article class="environment-card pressure-card">
 
-                <div class="environment-card-header">
+                <div class="environment-card-header pressure-header">
 
                     <div class="environment-icon">
                         🌡️
@@ -309,17 +309,18 @@
                         <span class="environment-status">{{ weather.pressure.status }}</span>
                     </div>
 
-                    <strong class="environment-value">
-                        {{ weather.pressure.value }} <span class="environment-unit">hPa</span>
-                    </strong>
+                    <div class="pressure-reading">
+                        <strong class="pressure-value">{{ weather.pressure.value }}</strong>
+                        <span class="pressure-unit">hPa</span>
+                    </div>
 
                 </div>
 
                 <div class="progress-bar">
-                    {% if weather.pressure.value != "--" %}
-                        <div class="progress-fill pressure-progress" style="width: {{ weather.pressure.value }}%"></div>
+                    {% if weather.pressure.score != "--" %}
+                <div class="progress-fill pressure-progress" style="width: {{ weather.pressure.score }}% !important;"></div>
                     {% else %}
-                        <div class="progress-fill pressure-progress" style="width: 0%;"></div>
+                <div class="progress-fill pressure-progress" style="width: 0% !important;"></div>
                     {% endif %}
                 </div>
 

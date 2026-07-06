@@ -3945,3 +3945,40 @@ body {
     color:#2563eb;
 
 }
+/* Ajuste do número 1019 hPa no card de pressão */
+
+.pressure-card .pressure-header {
+    display: grid !important;
+    grid-template-columns: 72px minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 18px !important;
+}
+
+.pressure-card .environment-title {
+    max-width: 170px !important;
+    margin: 0 0 6px !important;
+    font-size: 22px !important;
+    line-height: 1.08 !important;
+}
+
+.pressure-reading {
+    display: flex !important;
+    align-items: baseline !important;
+    justify-content: flex-end !important;
+    gap: 6px !important;
+    white-space: nowrap !important;
+    justify-self: end !important;
+}
+
+.pressure-value {
+    font-size: 38px !important;
+    line-height: 1 !important;
+    font-weight: 950 !important;
+    color: #0f1b2d !important;
+}
+
+.pressure-unit {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #60708a !important;
+}
