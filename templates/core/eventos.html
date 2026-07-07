@@ -309,7 +309,7 @@
             <p class="event-page-date">
                 📅 {{ evento.data_inicio }}
             </p>
-            
+
             <p>
                 🏷 {{ evento.get_tipo_evento_display }}
             </p>
@@ -317,6 +317,12 @@
             <p class="event-page-location">
                 📍 {{ evento.local_evento }}
             </p>
+
+        {% if evento.descricao %}
+            <p class="event-description">
+                📝 {{ evento.descricao }}
+            </p>
+        {% endif %}
 
         </div>
 
