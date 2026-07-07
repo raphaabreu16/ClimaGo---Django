@@ -309,19 +309,9 @@
             <p class="event-page-date">
                 📅 {{ evento.data_inicio }}
             </p>
-
+            
             <p>
-            <p style="color:red;">
-            Título = {{ evento.titulo }}
-            </p>
-
-            <p style="color:blue;">
-            Tipo = {{ evento.tipo_evento }}
-            </p>
-
-            <p style="color:green;">
-            Display = {{ evento.get_tipo_evento_display }}
-            </p>
+                🏷 {{ evento.get_tipo_evento_display }}
             </p>
 
             <p class="event-page-location">
