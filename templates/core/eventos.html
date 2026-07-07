@@ -93,6 +93,16 @@
                         📍 Campos do Jordão, SP
                     </p>
 
+                    {% if evento.descricao %}
+
+                    <p class="event-description">
+
+                    {{ evento.descricao }}
+
+                    </p>
+
+                    {% endif %}
+
                     <div class="event-page-weather">
                         <span>☀️ 18°C</span>
                         <span>🌧️ 70% chuva</span>
