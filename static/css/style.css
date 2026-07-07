@@ -3974,3 +3974,35 @@ body {
     font-weight: 700 !important;
     color: #60708a !important;
 }
+
+@media (max-width:768px){
+
+.calendar-header{
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+.weekdays{
+
+    grid-template-columns:repeat(7,1fr);
+
+    font-size:12px;
+
+}
+
+.dias{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+.estatisticas{
+
+    flex-direction:column;
+
+}
+
+}
