@@ -293,6 +293,7 @@
 {% for evento in eventos_usuario %}
 
 <article class="event-page-card event-page-safe">
+
     <div class="event-page-main">
 
         <div class="event-page-icon">
@@ -318,11 +319,11 @@
                 📍 {{ evento.local_evento }}
             </p>
 
-        {% if evento.descricao %}
-            <p class="event-description">
-                📝 {{ evento.descricao }}
-            </p>
-        {% endif %}
+            {% if evento.descricao %}
+                <p class="event-description">
+                    📝 {{ evento.descricao }}
+                </p>
+            {% endif %}
 
         </div>
 
@@ -330,26 +331,11 @@
 
 </article>
 
+{% empty %}
+
+<p>Nenhum evento encontrado.</p>
+
 {% endfor %}
-        {% else %}
-
-<div class="empty-events">
-
-<h2>
-
-📅 Nenhum evento encontrado
-
-</h2>
-
-<p>
-
-Cadastre um evento usando o formulário abaixo.
-
-</p>
-
-</div>
-
-{% endif %}
 </section>
 
 
