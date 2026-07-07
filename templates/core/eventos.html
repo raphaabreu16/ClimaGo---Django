@@ -311,8 +311,17 @@
             </p>
 
             <p>
-            <p>Valor: "{{ evento.tipo_evento }}"</p>
-            <p>Display: "{{ evento.get_tipo_evento_display }}"</p>
+            <p style="color:red;">
+            Título = {{ evento.titulo }}
+            </p>
+
+            <p style="color:blue;">
+            Tipo = {{ evento.tipo_evento }}
+            </p>
+
+            <p style="color:green;">
+            Display = {{ evento.get_tipo_evento_display }}
+            </p>
             </p>
 
             <p class="event-page-location">
