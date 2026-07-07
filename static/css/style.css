@@ -4006,3 +4006,72 @@ body {
 }
 
 }
+
+
+/* ===== Resumo dos eventos ===== */
+
+.events-summary{
+    display:flex;
+    gap:20px;
+    margin:25px 0;
+}
+
+.summary-card{
+    flex:1;
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.summary-card h3{
+    margin-bottom:10px;
+}
+
+.summary-card strong{
+    font-size:28px;
+    color:#2563eb;
+}
+
+/* ===== Botões ===== */
+
+.event-actions{
+    margin-top:15px;
+    display:flex;
+    gap:10px;
+}
+
+.edit-button{
+    background:#2563eb;
+    color:white;
+    padding:8px 16px;
+    border-radius:8px;
+    text-decoration:none;
+}
+
+.delete-button{
+    background:#ef4444;
+    color:white;
+    padding:8px 16px;
+    border-radius:8px;
+    text-decoration:none;
+}
+
+/* ===== Descrição ===== */
+
+.event-description{
+    margin-top:10px;
+    color:#666;
+    line-height:1.5;
+}
+
+/* ===== Mensagem sem eventos ===== */
+
+.empty-events{
+    text-align:center;
+    padding:40px;
+    background:#fff;
+    border-radius:15px;
+    margin-top:20px;
+}
