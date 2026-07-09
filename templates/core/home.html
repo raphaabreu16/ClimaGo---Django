@@ -298,39 +298,45 @@
 
             <article class="environment-card pressure-card">
 
-                <div class="environment-card-header pressure-header">
+    <div class="pressure-card-top">
 
-                    <div class="environment-icon">
-                        🌡️
-                    </div>
+        <div class="environment-icon">
+            🌡️
+        </div>
 
-                    <div class="environment-info">
-                        <h3 class="environment-title">Pressão Atmosférica</h3>
-                        <span class="environment-status">{{ weather.pressure.status }}</span>
-                    </div>
+        <div class="pressure-content">
 
-                    <div class="pressure-reading">
-                        <strong class="pressure-value">{{ weather.pressure.value }}</strong>
-                        <span class="pressure-unit">hPa</span>
-                    </div>
-
+            <div class="pressure-title-row">
+                <div>
+                    <h3 class="environment-title">Pressão Atmosférica</h3>
+                    <span class="environment-status">{{ weather.pressure.status }}</span>
                 </div>
 
-                <div class="progress-bar">
-                    {% if weather.pressure.score != "--" %}
-                <div class="progress-fill pressure-progress" style="width: {{ weather.pressure.score }}% !important;"></div>
-                    {% else %}
-                <div class="progress-fill pressure-progress" style="width: 0% !important;"></div>
-                    {% endif %}
+                <div class="pressure-reading">
+                    <strong>{{ weather.pressure.value }}</strong>
+                    <span>hPa</span>
                 </div>
+            </div>
 
-                <div class="progress-labels">
-                    <span>980</span>
-                    <span>1010</span>
-                    <span>1040</span>
-                </div>
+        </div>
 
-            </article>
+    </div>
+
+    <div class="progress-bar">
+        {% if weather.pressure.score != "--" %}
+            <div class="progress-fill pressure-progress" style="width: {{ weather.pressure.score }}%;"></div>
+        {% else %}
+            <div class="progress-fill pressure-progress" style="width: 0%;"></div>
+        {% endif %}
+    </div>
+
+    <div class="progress-labels">
+        <span>980</span>
+        <span>1010</span>
+        <span>1040</span>
+    </div>
+
+</article>
 
 
             <article class="environment-card disease-risk-card">
