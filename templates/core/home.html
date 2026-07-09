@@ -216,36 +216,70 @@
 
 
     <!-- EVENTOS -->
-    <section class="events-section">
+    <section class="events-section home-events-section">
 
-        {% include 'includes/section_header.html' with title='Seus eventos' link_url='/eventos/' link_text='Ver todos →' %}
+    <div class="section-header">
+        <h2>Seus eventos</h2>
+        <a href="{% url 'eventos' %}">Ver todos →</a>
+    </div>
 
-       <div class="events-list">
+    <div class="home-events-list">
 
-    {% if eventos %}
+        {% if eventos %}
+            {% for evento in eventos|slice:":3" %}
 
-        {% for evento in eventos %}
+                <article class="home-event-card">
 
-            {% include 'includes/event_card.html'
-                with
-                icon='📅'
-                title=evento.titulo
-                description=evento.data_inicio
-                status='safe'
-                status_label='Evento'
-            %}
+                    <div class="home-event-icon">
+                        {{ evento.clima_icone|default:"📅" }}
+                    </div>
 
-        {% endfor %}
+                    <div class="home-event-content">
 
-    {% else %}
+                        <div class="home-event-top">
+                            <h3>{{ evento.titulo }}</h3>
 
-        <p>Nenhum evento cadastrado.</p>
+                            <span class="home-event-status {{ evento.clima_status_class }}">
+                                {{ evento.clima_status|default:"Evento" }}
+                            </span>
+                        </div>
 
-    {% endif %}
+                        <p class="home-event-date">
+                            📅 {{ evento.data_inicio }}
+                        </p>
 
-</div>
+                        <p class="home-event-location">
+                            📍 {{ evento.local_evento }}
+                        </p>
 
-    </section>
+                        <div class="home-event-weather">
+                            <span>
+                                {{ evento.clima_icone|default:"🌤️" }} 
+                                {{ evento.clima_temperatura|default_if_none:"--" }}°C
+                            </span>
+
+                            <span>
+                                🌧️ {{ evento.clima_chuva|default_if_none:"--" }}% chuva
+                            </span>
+                        </div>
+
+                    </div>
+
+                </article>
+
+            {% endfor %}
+        {% else %}
+
+            <article class="home-event-empty">
+                <p>Nenhum evento cadastrado ainda.</p>
+                <a href="{% url 'eventos' %}">Criar evento →</a>
+            </article>
+
+        {% endif %}
+
+    </div>
+
+</section>
 
 
     <!-- MONITORAMENTO AMBIENTAL -->
