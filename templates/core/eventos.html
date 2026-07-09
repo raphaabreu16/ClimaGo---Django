@@ -22,41 +22,47 @@
     <!-- FILTROS -->
     <section class="events-filter-section" aria-label="Filtrar eventos">
 
-        <div class="events-filter-list">
-            <button type="button" class="events-filter-button active">
-                Todos
-            </button>
+    <div class="events-filter-list">
 
-            <button type="button" class="events-filter-button">
-                Seguro
-            </button>
+        <a href="{% url 'eventos' %}?filtro=todos"
+           class="events-filter-button {% if filtro == 'todos' %}active{% endif %}">
+            Todos
+        </a>
 
-            <button type="button" class="events-filter-button">
-                Atenção
-            </button>
+        <a href="{% url 'eventos' %}?filtro=seguro"
+           class="events-filter-button {% if filtro == 'seguro' %}active{% endif %}">
+            Seguro
+        </a>
 
-            <button type="button" class="events-filter-button">
-                Risco
-            </button>
-        </div>
+        <a href="{% url 'eventos' %}?filtro=atencao"
+           class="events-filter-button {% if filtro == 'atencao' %}active{% endif %}">
+            Atenção
+        </a>
 
-    </section>
+        <a href="{% url 'eventos' %}?filtro=risco"
+           class="events-filter-button {% if filtro == 'risco' %}active{% endif %}">
+            Risco
+        </a>
+
+    </div>
+
+</section>
 
         <section class="events-summary">
 
         <div class="summary-card">
             <h3>☀️ Seguros</h3>
-            <strong>3</strong>
+            <strong>{{ total_seguros }}</strong>
         </div>
 
         <div class="summary-card">
             <h3>⚠️ Atenção</h3>
-            <strong>1</strong>
+            <strong>{{ total_atencao }}</strong>    
         </div>
 
         <div class="summary-card">
             <h3>🌧️ Risco</h3>
-            <strong>1</strong>
+            <strong>{{ total_risco }}</strong>
         </div>
 
     </section>
@@ -65,246 +71,26 @@
     <!-- LISTA DE EVENTOS -->
     <section class="events-page-list" aria-label="Lista de eventos planejados">
 
-        <!-- EVENTO RISCO -->
-        <article class="event-page-card event-page-danger">
-
-            <div class="event-page-main">
-
-                <div class="event-page-icon">
-                    🌧️
-                </div>
-
-                <div class="event-page-info">
-
-                    <div class="event-page-title-row">
-                        <h2>Trilha Serra da Mantiqueira</h2>
-                        <span class="event-page-status status-danger">Risco</span>
-                    </div>
-
-                    <p class="event-page-date">
-                        📅 Ter, 8 Abr · 07:00
-                    </p>
-
-                    <p>
-                        🏷 Lazer
-                    </p>
-
-                    <p class="event-page-location">
-                        📍 Campos do Jordão, SP
-                    </p>
-
-                    {% if evento.descricao %}
-
-                    <p class="event-description">
-
-                    {{ evento.descricao }}
-
-                    </p>
-
-                    {% endif %}
-
-                    <div class="event-page-weather">
-                        <span>☀️ 18°C</span>
-                        <span>🌧️ 70% chuva</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="event-page-compatibility danger-text">
-                ☀️ Baixa — previsão de chuva
-            </div>
-
-            <div class="event-page-suggestion danger-suggestion">
-                ☂️ Considere remarcar para Qui, 10 Abr
-            </div>
-
-        </article>
-
-
-        <!-- EVENTO ATENÇÃO -->
-        <article class="event-page-card event-page-warning">
-
-            <div class="event-page-main">
-
-                <div class="event-page-icon">
-                    ☁️
-                </div>
-
-                <div class="event-page-info">
-
-                    <div class="event-page-title-row">
-                        <h2>Reunião ao ar livre</h2>
-                        <span class="event-page-status status-warning">Atenção</span>
-                    </div>
-
-                    <p class="event-page-date">
-                        📅 Qua, 9 Abr · 14:00
-                    </p>
-
-                    <p class="event-page-location">
-                        📍 Parque Ibirapuera, SP
-                    </p>
-
-                    <div class="event-page-weather">
-                        <span>☀️ 23°C</span>
-                        <span>🌧️ 55% chuva</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="event-page-compatibility warning-text">
-                🌤️ Média — temperatura agradável mas instável
-            </div>
-
-            <div class="event-page-suggestion warning-suggestion">
-                ☂️ Leve um guarda-chuva por precaução
-            </div>
-
-        </article>
-
-
-        <!-- EVENTO SEGURO -->
-        <article class="event-page-card event-page-safe">
-
-            <div class="event-page-main">
-
-                <div class="event-page-icon">
-                    ☀️
-                </div>
-
-                <div class="event-page-info">
-
-                    <div class="event-page-title-row">
-                        <h2>Churrasco no sítio</h2>
-                        <span class="event-page-status status-safe">Seguro</span>
-                    </div>
-
-                    <p class="event-page-date">
-                        📅 Sex, 11 Abr · 12:00
-                    </p>
-
-                    <p class="event-page-location">
-                        📍 Atibaia, SP
-                    </p>
-
-                    <div class="event-page-weather">
-                        <span>☀️ 29°C</span>
-                        <span>🌧️ 10% chuva</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="event-page-compatibility safe-text">
-                ☀️ Alta — sol e tempo aberto
-            </div>
-
-        </article>
-
-
-        <!-- EVENTO ATENÇÃO -->
-        <article class="event-page-card event-page-warning">
-
-            <div class="event-page-main">
-
-                <div class="event-page-icon">
-                    ⛅
-                </div>
-
-                <div class="event-page-info">
-
-                    <div class="event-page-title-row">
-                        <h2>Casamento na praia</h2>
-                        <span class="event-page-status status-warning">Atenção</span>
-                    </div>
-
-                    <p class="event-page-date">
-                        📅 Sáb, 19 Abr · 16:00
-                    </p>
-
-                    <p class="event-page-location">
-                        📍 Ubatuba, SP
-                    </p>
-
-                    <div class="event-page-weather">
-                        <span>☀️ 27°C</span>
-                        <span>🌧️ 25% chuva</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="event-page-compatibility warning-text">
-                ☀️ Média — parcialmente nublado
-            </div>
-
-            <div class="event-page-suggestion warning-suggestion">
-                ☂️ Tenha um plano B para área coberta
-            </div>
-
-        </article>
-
-
-        <!-- EVENTO SEGURO -->
-        <article class="event-page-card event-page-safe">
-
-            <div class="event-page-main">
-
-                <div class="event-page-icon">
-                    ☀️
-                </div>
-
-                <div class="event-page-info">
-
-                    <div class="event-page-title-row">
-                        <h2>Festival de música</h2>
-                        <span class="event-page-status status-safe">Seguro</span>
-                    </div>
-
-                    <p class="event-page-date">
-                        📅 Dom, 27 Abr · 15:00
-                    </p>
-
-                    <p class="event-page-location">
-                        📍 São Paulo, SP
-                    </p>
-
-                    <div class="event-page-weather">
-                        <span>☀️ 24°C</span>
-                        <span>🌧️ 15% chuva</span>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="event-page-compatibility safe-text">
-                🌤️ Alta — clima ameno ideal
-            </div>
-
-        </article>
+        
 {% if eventos_usuario %}
 {% for evento in eventos_usuario %}
 
-<article class="event-page-card event-page-safe">
+<article class="event-page-card {{ evento.clima_card_class }}">
 
     <div class="event-page-main">
 
         <div class="event-page-icon">
-            📅
+            {{ evento.clima_icone|default:"📅" }}
         </div>
 
         <div class="event-page-info">
 
             <div class="event-page-title-row">
                 <h2>{{ evento.titulo }}</h2>
-                <span class="event-page-status status-safe">Evento</span>
+
+                <span class="event-page-status {{ evento.clima_status_class }}">
+                    {{ evento.clima_status|default:"Evento" }}
+                </span>
             </div>
 
             <p class="event-page-date">
@@ -325,9 +111,35 @@
                 </p>
             {% endif %}
 
+            <div class="event-page-weather">
+                <span>
+        {{ evento.clima_icone|default:"🌤️" }} {{ evento.clima_temperatura|default_if_none:"--" }}°C
+    </span>
+
+    <span>
+        🌧️ {{ evento.clima_chuva|default_if_none:"--" }}% chuva
+    </span>
+            </div>
+
         </div>
 
     </div>
+
+    <div class="event-page-compatibility {{ evento.clima_text_class }}">
+        {{ evento.clima_icone|default:"🌤️" }}
+        {{ evento.clima_nivel|default:"Média" }} — {{ evento.clima_descricao|default:"Clima da região" }}
+    </div>
+
+    <div class="event-page-suggestion {{ evento.clima_suggestion_class }}">
+        ☂️ {{ evento.clima_recomendacao|default:"Acompanhe a previsão antes do evento." }}
+    </div>
+
+    <form method="POST" action="/eventos/{{ evento.id }}/apagar/" class="delete-event-form">
+    {% csrf_token %}
+    <button type="submit" class="delete-event-button">
+        🗑️ Apagar evento
+    </button>
+</form> 
 
 </article>
 

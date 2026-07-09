@@ -617,10 +617,10 @@ a {
 /* RESPONSIVO */
 
 @media (min-width: 768px) {
-    .dashboard-page {
+   .dashboard-page {
         max-width: 760px;
     }
-
+}
     .environment-list,
     .recommendations-list {
         display: grid;
@@ -4074,4 +4074,17 @@ body {
     background:#fff;
     border-radius:15px;
     margin-top:20px;
+}
+.delete-event-button {
+    border: none;
+    border-radius: 999px;
+    padding: 10px 16px;
+    background: #fee2e2;
+    color: #b91c1c;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.delete-event-button:hover {
+    background: #fecaca;
 }

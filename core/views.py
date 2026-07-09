@@ -1,10 +1,215 @@
+from decimal import Decimal
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import (authenticate, login, logout)
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import (PesquisaClimaForm, CadastroForm, LoginForm)
-from .services.weather_api import get_weather
-from .models import EventoCalendario, Perfil
+from django.utils import timezone
+
+from .forms import PesquisaClimaForm, CadastroForm, LoginForm
+from .services.weather_api import get_weather, get_empty_weather, get_coordinates
+from .models import EventoCalendario, Perfil, Localizacao, PrevisaoClimatica
+
+
+def to_decimal(value, default="0"):
+    if value in [None, "", "--"]:
+        return Decimal(default)
+
+    return Decimal(str(value))
+
+
+def to_int(value, default=0):
+    if value in [None, "", "--"]:
+        return default
+
+    return int(value)
+
+
+def salvar_previsao_no_banco(request, city, weather):
+    if not request.user.is_authenticated:
+        return
+
+    if not weather or weather.get("temperature") == "--":
+        return
+
+    try:
+        perfil, _ = Perfil.objects.get_or_create(user=request.user)
+
+        location = get_coordinates(city)
+
+        if location is None:
+            return
+
+        localizacao, _ = Localizacao.objects.update_or_create(
+            usuario=perfil,
+            cidade=location["city"],
+            defaults={
+                "estado": "",
+                "pais": location.get("country") or "Brasil",
+                "latitude": Decimal(str(location["latitude"])),
+                "longitude": Decimal(str(location["longitude"])),
+                "apelido_local": location["city"],
+            },
+        )
+
+        today = weather.get("today", {})
+
+        PrevisaoClimatica.objects.create(
+            localizacao=localizacao,
+            data_hora=timezone.now(),
+            temperatura=to_decimal(weather.get("temperature")),
+            temperatura_min=to_decimal(today.get("min_temp")),
+            temperatura_max=to_decimal(today.get("max_temp")),
+            umidade=to_int(weather.get("humidity")),
+            velocidade_vento=to_decimal(weather.get("wind_speed")),
+            condicao_climatica=weather.get("description", "Clima indisponível"),
+            probabilidade_chuva=to_decimal(today.get("rain_chance")),
+        )
+
+    except Exception as erro:
+        print("ERRO AO SALVAR PREVISÃO NO BANCO:", erro)
+
+
+def extrair_cidade_evento(local_evento):
+    if not local_evento:
+        return "Rio de Janeiro"
+
+    cidade = local_evento.split(",")[0].strip()
+
+    if not cidade:
+        return "Rio de Janeiro"
+
+    return cidade
+
+
+def classificar_evento_por_clima(score, chuva):
+    if isinstance(chuva, (int, float)) and chuva >= 60:
+        return {
+            "status": "Risco",
+            "card_class": "event-page-danger",
+            "status_class": "status-danger",
+            "text_class": "danger-text",
+            "suggestion_class": "danger-suggestion",
+            "nivel": "Baixa",
+            "recomendacao": "Considere remarcar ou preparar uma área coberta.",
+        }
+
+    if isinstance(score, (int, float)) and score < 50:
+        return {
+            "status": "Risco",
+            "card_class": "event-page-danger",
+            "status_class": "status-danger",
+            "text_class": "danger-text",
+            "suggestion_class": "danger-suggestion",
+            "nivel": "Baixa",
+            "recomendacao": "Condição climática desfavorável para evento ao ar livre.",
+        }
+
+    if isinstance(chuva, (int, float)) and chuva >= 25:
+        return {
+            "status": "Atenção",
+            "card_class": "event-page-warning",
+            "status_class": "status-warning",
+            "text_class": "warning-text",
+            "suggestion_class": "warning-suggestion",
+            "nivel": "Média",
+            "recomendacao": "Tenha um plano B para área coberta.",
+        }
+
+    if isinstance(score, (int, float)) and score < 75:
+        return {
+            "status": "Atenção",
+            "card_class": "event-page-warning",
+            "status_class": "status-warning",
+            "text_class": "warning-text",
+            "suggestion_class": "warning-suggestion",
+            "nivel": "Média",
+            "recomendacao": "Acompanhe possíveis mudanças na previsão.",
+        }
+
+    return {
+        "status": "Seguro",
+        "card_class": "event-page-safe",
+        "status_class": "status-safe",
+        "text_class": "safe-text",
+        "suggestion_class": "safe-suggestion",
+        "nivel": "Alta",
+        "recomendacao": "Condições favoráveis para o evento.",
+    }
+
+
+def adicionar_clima_aos_eventos(eventos):
+    eventos = list(eventos)
+    cache_clima = {}
+
+    for evento in eventos:
+        cidade = extrair_cidade_evento(evento.local_evento)
+
+        if cidade not in cache_clima:
+            try:
+                cache_clima[cidade] = get_weather(cidade)
+            except Exception as erro:
+                print("ERRO AO BUSCAR CLIMA DO EVENTO:", cidade, erro)
+                cache_clima[cidade] = get_empty_weather(cidade)
+
+        weather = cache_clima[cidade]
+        dia_evento = None
+
+        if weather and weather.get("forecast") and evento.data_inicio:
+            data_evento = evento.data_inicio.date().isoformat()
+
+            for dia in weather["forecast"]:
+                if dia.get("date") == data_evento:
+                    dia_evento = dia
+                    break
+
+        if dia_evento:
+            temperatura = dia_evento.get("max_temp", "--")
+            chuva = dia_evento.get("rain_chance", "--")
+            icone = dia_evento.get("icon", "🌤️")
+            descricao = dia_evento.get("description", "Previsão indisponível")
+            score = dia_evento.get("risk_score", "--")
+        else:
+            temperatura = weather.get("temperature", "--")
+            chuva = weather.get("today", {}).get("rain_chance", "--")
+            icone = weather.get("icon", "🌤️")
+            descricao = weather.get("description", "Clima atual da região")
+            score = weather.get("score", "--")
+
+        classificacao = classificar_evento_por_clima(score, chuva)
+
+        evento.clima_cidade = weather.get("city", cidade)
+        evento.clima_temperatura = temperatura
+        evento.clima_chuva = chuva
+        evento.clima_icone = icone
+        evento.clima_descricao = descricao
+        evento.clima_score = score
+
+        evento.clima_status = classificacao["status"]
+        evento.clima_card_class = classificacao["card_class"]
+        evento.clima_status_class = classificacao["status_class"]
+        evento.clima_text_class = classificacao["text_class"]
+        evento.clima_suggestion_class = classificacao["suggestion_class"]
+        evento.clima_nivel = classificacao["nivel"]
+        evento.clima_recomendacao = classificacao["recomendacao"]
+
+    return eventos
+
+
+def contar_eventos_por_status(eventos):
+    seguros = 0
+    atencao = 0
+    risco = 0
+
+    for evento in eventos:
+        if evento.clima_status == "Seguro":
+            seguros += 1
+        elif evento.clima_status == "Atenção":
+            atencao += 1
+        elif evento.clima_status == "Risco":
+            risco += 1
+
+    return seguros, atencao, risco
 
 
 def home(request):
@@ -13,16 +218,12 @@ def home(request):
     try:
         weather = get_weather(city)
     except Exception:
-        weather = {
-            "city": city,
-            "temperature": "--",
-            "humidity": "--",
-            "wind_speed": "--",
-            "weather_code": None,
-            "forecast": [],
-        }
+        weather = get_empty_weather(city)
+
+    salvar_previsao_no_banco(request, city, weather)
 
     eventos = EventoCalendario.objects.order_by("data_inicio")
+    eventos = adicionar_clima_aos_eventos(eventos)
 
     context = {
         "weather": weather,
@@ -48,6 +249,9 @@ def previsao(request):
     except Exception:
         weather = None
 
+    if weather:
+        salvar_previsao_no_banco(request, city, weather)
+
     forecast_exibido = []
     dia_detalhe = None
     analise_intervalo = None
@@ -63,13 +267,31 @@ def previsao(request):
             try:
                 ini = int(inicio_intervalo)
                 fim = int(fim_intervalo)
+
                 if ini > fim:
                     ini, fim = fim, ini
+
                 intervalo = forecast_exibido[ini:fim + 1]
+
                 if intervalo:
-                    temps = [d["max_temp"] for d in intervalo if isinstance(d["max_temp"], (int, float))]
-                    chuvas = [d["rain_chance"] for d in intervalo if isinstance(d["rain_chance"], (int, float))]
-                    scores = [d["risk_score"] for d in intervalo if isinstance(d["risk_score"], (int, float))]
+                    temps = [
+                        d["max_temp"]
+                        for d in intervalo
+                        if isinstance(d["max_temp"], (int, float))
+                    ]
+
+                    chuvas = [
+                        d["rain_chance"]
+                        for d in intervalo
+                        if isinstance(d["rain_chance"], (int, float))
+                    ]
+
+                    scores = [
+                        d["risk_score"]
+                        for d in intervalo
+                        if isinstance(d["risk_score"], (int, float))
+                    ]
+
                     analise_intervalo = {
                         "inicio_label": intervalo[0]["day_label"],
                         "fim_label": intervalo[-1]["day_label"],
@@ -78,7 +300,9 @@ def previsao(request):
                         "score_medio": round(sum(scores) / len(scores)) if scores else "--",
                         "vento_medio": weather.get("wind_speed", "--"),
                     }
+
                     score = analise_intervalo["score_medio"]
+
                     if isinstance(score, int) and score >= 80:
                         analise_intervalo["texto"] = "Período excelente para atividades ao ar livre."
                     elif isinstance(score, int) and score >= 60:
@@ -87,19 +311,20 @@ def previsao(request):
                         analise_intervalo["texto"] = "Período com risco climático elevado. Planeje com cuidado."
                     else:
                         analise_intervalo["texto"] = "Selecione um intervalo para ver a análise."
+
             except (ValueError, IndexError):
                 analise_intervalo = None
 
-    return render(request, 'core/previsao.html', {
-        'weather': weather,
-        'city': city,
-        'periodo': periodo,
-        'forecast_exibido': forecast_exibido,
-        'dia_selecionado': dia_selecionado,
-        'dia_detalhe': dia_detalhe,
-        'analise_intervalo': analise_intervalo,
-        'inicio_intervalo': inicio_intervalo,
-        'fim_intervalo': fim_intervalo,
+    return render(request, "core/previsao.html", {
+        "weather": weather,
+        "city": city,
+        "periodo": periodo,
+        "forecast_exibido": forecast_exibido,
+        "dia_selecionado": dia_selecionado,
+        "dia_detalhe": dia_detalhe,
+        "analise_intervalo": analise_intervalo,
+        "inicio_intervalo": inicio_intervalo,
+        "fim_intervalo": fim_intervalo,
     })
 
 
@@ -108,97 +333,159 @@ def calendario(request):
     eventos = EventoCalendario.objects.order_by("data_inicio")
     return render(request, "core/calendario.html", {"eventos": eventos})
 
+
 @login_required
 def eventos(request):
     perfil, _ = Perfil.objects.get_or_create(user=request.user)
-    eventos_usuario = EventoCalendario.objects.filter(usuario=perfil).order_by('data_inicio')
     erro = None
     sucesso = None
 
-    if request.method == 'POST':
-        from .forms import EventoForm
+    from .forms import EventoForm
+
+    if request.method == "POST":
         form = EventoForm(request.POST)
+
         if form.is_valid():
             EventoCalendario.objects.create(
                 usuario=perfil,
-                titulo=form.cleaned_data['titulo'],
-                data_inicio=form.cleaned_data['data_inicio'],
-                data_fim=form.cleaned_data['data_fim'],
-                local_evento=form.cleaned_data.get('local_evento', ''),
-                tipo_evento=form.cleaned_data['tipo_evento'],
-                descricao=form.cleaned_data.get('descricao', ''),
+                titulo=form.cleaned_data["titulo"],
+                data_inicio=form.cleaned_data["data_inicio"],
+                data_fim=form.cleaned_data["data_fim"],
+                local_evento=form.cleaned_data.get("local_evento", ""),
+                tipo_evento=form.cleaned_data["tipo_evento"],
+                descricao=form.cleaned_data.get("descricao", ""),
             )
-            sucesso = 'Evento criado com sucesso!'
-            from .forms import EventoForm
-            form = EventoForm()
+
+            return redirect("eventos")
+
     else:
-        from .forms import EventoForm
         form = EventoForm()
 
-    return render(request, 'core/eventos.html', {
-        'form': form,
-        'eventos_usuario': eventos_usuario,
-        'erro': erro,
-        'sucesso': sucesso,
+    eventos_usuario = EventoCalendario.objects.filter(usuario=perfil).order_by("data_inicio")
+    eventos_usuario = adicionar_clima_aos_eventos(eventos_usuario)
+
+    total_seguros = len([evento for evento in eventos_usuario if evento.clima_status == "Seguro"])
+    total_atencao = len([evento for evento in eventos_usuario if evento.clima_status == "Atenção"])
+    total_risco = len([evento for evento in eventos_usuario if evento.clima_status == "Risco"])
+
+    filtro = request.GET.get("filtro", "todos")
+
+    if filtro == "seguro":
+        eventos_usuario = [evento for evento in eventos_usuario if evento.clima_status == "Seguro"]
+    elif filtro == "atencao":
+        eventos_usuario = [evento for evento in eventos_usuario if evento.clima_status == "Atenção"]
+    elif filtro == "risco":
+        eventos_usuario = [evento for evento in eventos_usuario if evento.clima_status == "Risco"]
+
+    return render(request, "core/eventos.html", {
+        "form": form,
+        "eventos_usuario": eventos_usuario,
+        "erro": erro,
+        "sucesso": sucesso,
+        "filtro": filtro,
+        "total_seguros": total_seguros,
+        "total_atencao": total_atencao,
+        "total_risco": total_risco,
     })
 
+@login_required
+def apagar_evento(request, evento_id):
+    perfil, _ = Perfil.objects.get_or_create(user=request.user)
+
+    evento = EventoCalendario.objects.filter(
+        id=evento_id,
+        usuario=perfil,
+    ).first()
+
+    if request.method == "POST" and evento:
+        evento.delete()
+
+    return redirect("eventos")
 
 def pesquisar_clima(request):
     cidade = None
-    if request.method == 'POST':
+
+    if request.method == "POST":
         form = PesquisaClimaForm(request.POST)
+
         if form.is_valid():
-            cidade = form.cleaned_data['cidade']
+            cidade = form.cleaned_data["cidade"]
     else:
         form = PesquisaClimaForm()
-    return render(request, 'pesquisa_clima.html', {'form': form, 'cidade': cidade})
+
+    return render(request, "pesquisa_clima.html", {
+        "form": form,
+        "cidade": cidade,
+    })
 
 
 def cadastro(request):
     erro = None
-    if request.method == 'POST':
+
+    if request.method == "POST":
         form = CadastroForm(request.POST)
+
         if form.is_valid():
-            username = form.cleaned_data['username']
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password1']
+            username = form.cleaned_data["username"]
+            email = form.cleaned_data["email"]
+            password = form.cleaned_data["password1"]
+
             if User.objects.filter(username=username).exists():
-                erro = 'Usuário já existe'
+                erro = "Usuário já existe"
             else:
-                User.objects.create_user(username=username, email=email, password=password)
-                return redirect('login')
+                User.objects.create_user(
+                    username=username,
+                    email=email,
+                    password=password,
+                )
+                return redirect("login")
     else:
         form = CadastroForm()
-    return render(request, 'core/cadastro.html', {'form': form, 'erro': erro})
+
+    return render(request, "core/cadastro.html", {
+        "form": form,
+        "erro": erro,
+    })
 
 
 def login_view(request):
     erro = None
-    if request.method == 'POST':
+
+    if request.method == "POST":
         form = LoginForm(request.POST)
+
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            usuario = authenticate(request, username=username, password=password)
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            usuario = authenticate(
+                request,
+                username=username,
+                password=password,
+            )
+
             if usuario:
                 login(request, usuario)
-                return redirect('home')
-            erro = 'Usuário ou senha inválidos'
+                return redirect("home")
+
+            erro = "Usuário ou senha inválidos"
     else:
         form = LoginForm()
-    return render(request, 'core/login.html', {'form': form, 'erro': erro})
+
+    return render(request, "core/login.html", {
+        "form": form,
+        "erro": erro,
+    })
 
 
 def logout_view(request):
     logout(request)
-    return redirect('home')
-
+    return redirect("home")
 
 
 def alertas(request):
-    return render(request, 'core/alertas.html')
+    return render(request, "core/alertas.html")
 
 
 @login_required
 def config(request):
-    return render(request, 'core/config.html')
+    return render(request, "core/config.html")
