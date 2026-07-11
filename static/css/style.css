@@ -4226,3 +4226,36 @@ body {
     font-weight: 900 !important;
     text-decoration: none !important;
 }
+/* Diminuir título do card de pressão */
+.pressure-card .environment-title {
+    font-size: 18px !important;
+    line-height: 1.08 !important;
+}
+.pressure-card .pressure-card-top {
+    display: grid !important;
+    grid-template-columns: 72px 1fr !important;
+    align-items: start !important;
+    gap: 6px !important;
+}
+
+.pressure-card .environment-icon {
+    margin-top: 0 !important;
+}
+
+.pressure-card .pressure-content {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+.pressure-card .pressure-title-row {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    align-items: flex-start !important;
+}
+
+.pressure-card .environment-title {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    font-size: 18px !important;
+    line-height: 1.08 !important;
+}
