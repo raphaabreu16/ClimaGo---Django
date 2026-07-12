@@ -4259,3 +4259,222 @@ body {
     font-size: 18px !important;
     line-height: 1.08 !important;
 }
+/* =========================
+   CADASTRO COM FORM DO DJANGO
+========================= */
+
+.auth-page {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px 120px;
+    background: #f4f8fc;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 38px 34px;
+    border-radius: 22px;
+    background: #ffffff;
+    box-shadow: 0 16px 45px rgba(31, 64, 104, 0.12);
+}
+
+.auth-header {
+    margin-bottom: 24px;
+}
+
+.auth-header h1 {
+    margin: 0 0 10px;
+    color: #172033;
+    font-size: 31px;
+    font-weight: 900;
+}
+
+.auth-header p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 15px;
+    line-height: 1.35;
+}
+
+/* Cada campo gerado pelo form.as_p */
+.django-auth-form p {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin: 0 0 18px;
+}
+
+/* Labels automáticas do Django */
+.django-auth-form label {
+    color: #172033;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+/* Inputs automáticos */
+.django-auth-form input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    background: #eaf2ff;
+    color: #172033;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.django-auth-form input:focus {
+    border-color: #2783dc;
+    box-shadow: 0 0 0 4px rgba(39, 131, 220, 0.12);
+}
+
+/* Textos de ajuda do Django */
+.django-auth-form .helptext {
+    color: #6b7280;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.django-auth-form ul {
+    margin: 6px 0 0;
+    padding-left: 18px;
+    color: #6b7280;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.django-auth-form .errorlist {
+    margin: 0 0 7px;
+    padding: 10px 12px;
+    list-style: none;
+    border-radius: 8px;
+    background: #fee2e2;
+    color: #b91c1c;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.auth-error-general {
+    margin-bottom: 18px;
+    padding: 10px 12px;
+    border-radius: 9px;
+    background: #fee2e2;
+    color: #b91c1c;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.auth-submit-button {
+    width: 100%;
+    height: 46px;
+    border: none;
+    border-radius: 10px;
+    background: #2783dc;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.auth-submit-button:hover {
+    background: #1f72c4;
+}
+
+.auth-footer-text {
+    margin: 22px 0 0;
+    color: #172033;
+    text-align: center;
+    font-size: 14px;
+}
+
+.auth-footer-text a {
+    color: #172033;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.auth-footer-text a:hover {
+    color: #2783dc;
+}
+
+@media (max-width: 520px) {
+    .auth-page {
+        align-items: flex-start;
+        padding: 28px 16px 110px;
+    }
+
+    .auth-card {
+        padding: 28px 22px;
+    }
+}   
+.auth-page {
+    min-height: calc(100vh - 90px) !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 40px 20px 110px !important;
+    background: #f4f8fc !important;
+}
+
+.auth-card {
+    width: 100% !important;
+    max-width: 400px !important;
+    padding: 38px 34px !important;
+    background: #ffffff !important;
+    border-radius: 22px !important;
+    box-shadow: 0 16px 45px rgba(31, 64, 104, 0.12) !important;
+}
+
+.auth-card h1 {
+    margin: 0 0 24px !important;
+    font-size: 31px !important;
+    color: #172033 !important;
+}
+
+.django-auth-form p {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 7px !important;
+    margin: 0 0 18px !important;
+}
+
+.django-auth-form label {
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: #172033 !important;
+}
+
+.django-auth-form input {
+    width: 100% !important;
+    height: 44px !important;
+    padding: 0 14px !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 9px !important;
+    background: #eaf2ff !important;
+    box-sizing: border-box !important;
+    font-size: 15px !important;
+}
+
+.django-auth-form .helptext,
+.django-auth-form ul {
+    color: #6b7280 !important;
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+}
+
+.auth-submit-button {
+    width: 100% !important;
+    height: 46px !important;
+    border: none !important;
+    border-radius: 10px !important;
+    background: #2783dc !important;
+    color: #ffffff !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+}

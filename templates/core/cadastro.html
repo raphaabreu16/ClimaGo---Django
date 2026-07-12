@@ -4,28 +4,29 @@
 Cadastro
 {% endblock %}
 
-
 {% block content %}
 
-<main class="page-content">
+<main class="auth-page">
 
-    <h1>Criar conta</h1>
+    <section class="auth-card">
 
-    {% if erro %}
-        <p>{{ erro }}</p>
-    {% endif %}
+        <h1>Criar conta</h1>
 
-    <form method="POST">
+        {% if erro %}
+            <p class="auth-error-general">{{ erro }}</p>
+        {% endif %}
 
-        {% csrf_token %}
+        <form method="POST" class="django-auth-form">
+            {% csrf_token %}
 
-        {{ form.as_p }}
+            {{ form.as_p }}
 
-        <button type="submit">
-            Criar conta
-        </button>
+            <button type="submit" class="auth-submit-button">
+                Criar conta
+            </button>
+        </form>
 
-    </form>
+    </section>
 
 </main>
 

@@ -222,8 +222,16 @@ def home(request):
 
     salvar_previsao_no_banco(request, city, weather)
 
-    eventos = EventoCalendario.objects.order_by("data_inicio")
-    eventos = adicionar_clima_aos_eventos(eventos)
+    eventos = []
+
+    if request.user.is_authenticated:
+        perfil, _ = Perfil.objects.get_or_create(user=request.user)
+
+        eventos = EventoCalendario.objects.filter(
+            usuario=perfil
+        ).order_by("data_inicio")
+
+        eventos = adicionar_clima_aos_eventos(eventos)
 
     context = {
         "weather": weather,
@@ -231,7 +239,7 @@ def home(request):
         "eventos": eventos,
     }
 
-    return render(request, "core/home.html", context)
+    return render(request, "core/home.html", context)   
 
 
 def previsao(request):
